@@ -51,7 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   function handleLogout() {
     clearAuth();
-    router.push("/login");
+    router.push("/");
   }
 
   return (
