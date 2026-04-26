@@ -16,14 +16,14 @@ export default function Hero() {
           className="absolute inset-0"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(34,211,238,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(34,211,238,0.035) 1px, transparent 1px)",
+              "linear-gradient(oklch(64% 0.22 265 / 0.04) 1px, transparent 1px), linear-gradient(90deg, oklch(64% 0.22 265 / 0.04) 1px, transparent 1px)",
             backgroundSize: "64px 64px",
           }}
         />
         {/* left glow */}
         <div
           className="absolute -top-20 left-[-10%] w-[700px] h-[700px] rounded-full"
-          style={{ background: "radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 65%)" }}
+          style={{ background: "radial-gradient(circle, oklch(64% 0.22 265 / 0.18) 0%, transparent 65%)" }}
         />
         {/* right glow */}
         <div
@@ -40,7 +40,7 @@ export default function Hero() {
             {/* badge */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-brand/25 bg-brand/5 mb-9">
               <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse-dot" />
-              <span className="text-brand text-xs font-medium tracking-wide" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              <span className="text-brand text-xs font-medium tracking-wide" style={{ fontFamily: "var(--font-outfit)" }}>
                 AI-Powered Email Management
               </span>
             </div>
@@ -48,14 +48,14 @@ export default function Hero() {
             {/* headline */}
             <h1
               className="text-[52px] sm:text-[64px] lg:text-[72px] font-bold leading-[1.03] tracking-[-0.02em] text-white mb-7"
-              style={{ fontFamily: "var(--font-syne)" }}
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               Your inbox,
               <br />
               <span
                 className="animate-gradient"
                 style={{
-                  background: "linear-gradient(90deg, #22d3ee 0%, #67e8f9 45%, #a78bfa 100%)",
+                  background: "linear-gradient(90deg, oklch(64% 0.22 265) 0%, oklch(72% 0.16 200) 55%, oklch(64% 0.22 305) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -70,7 +70,7 @@ export default function Hero() {
             {/* sub */}
             <p
               className="text-slate-400 text-[17px] leading-[1.75] mb-11 max-w-[440px]"
-              style={{ fontFamily: "var(--font-dm-sans)" }}
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               AI Inbox Assistant reads, summarises, prioritises, and replies to
               your emails — giving you back{" "}
@@ -81,8 +81,8 @@ export default function Hero() {
             <div className="flex flex-wrap gap-3 mb-7">
               <a
                 href="#"
-                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-slate-950 bg-brand hover:bg-cyan-300 transition-all duration-200 hover:shadow-[0_0_32px_rgba(34,211,238,0.5)]"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_32px_oklch(64%_0.22_265/0.5)]"
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 Start Free Trial
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -92,7 +92,7 @@ export default function Hero() {
               <a
                 href="#"
                 className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-medium text-slate-300 border border-white/10 hover:border-white/20 hover:bg-white/[0.04] hover:text-white transition-all duration-200"
-                style={{ fontFamily: "var(--font-dm-sans)" }}
+                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
                   <circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" strokeWidth="1.2"/>
@@ -103,7 +103,7 @@ export default function Hero() {
             </div>
 
             {/* trust line */}
-            <p className="text-slate-700 text-xs" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <p className="text-slate-700 text-xs" style={{ fontFamily: "var(--font-outfit)" }}>
               No credit card required · 14-day free trial · Cancel anytime
             </p>
           </div>
@@ -125,7 +125,7 @@ function InboxMockup() {
   return (
     <div
       className="w-[360px] sm:w-[420px] rounded-2xl overflow-hidden border border-white/[0.09]"
-      style={{ background: "rgba(10,10,22,0.92)", backdropFilter: "blur(24px)", boxShadow: "0 32px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)" }}
+      style={{ background: "rgba(8,14,31,0.94)", backdropFilter: "blur(24px)", boxShadow: "0 32px 80px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)" }}
     >
       {/* Window chrome */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-white/[0.06]">
@@ -136,7 +136,7 @@ function InboxMockup() {
         </div>
         <div className="flex-1 mx-3">
           <div className="mx-auto w-fit px-3 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.05]">
-            <span className="text-slate-500 text-[11px]" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <span className="text-slate-500 text-[11px]" style={{ fontFamily: "var(--font-outfit)" }}>
               app.inboxai.io
             </span>
           </div>
@@ -149,13 +149,13 @@ function InboxMockup() {
         style={{ background: "rgba(255,255,255,0.015)" }}
       >
         <div className="flex items-center gap-1.5">
-          <span className="text-white text-sm font-semibold" style={{ fontFamily: "var(--font-syne)" }}>Inbox</span>
-          <span className="px-1.5 py-0.5 rounded-full bg-brand/15 text-brand text-[10px] font-medium" style={{ fontFamily: "var(--font-dm-sans)" }}>4</span>
+          <span className="text-white text-sm font-semibold" style={{ fontFamily: "var(--font-outfit)" }}>Inbox</span>
+          <span className="px-1.5 py-0.5 rounded-full bg-brand/15 text-brand text-[10px] font-medium" style={{ fontFamily: "var(--font-outfit)" }}>4</span>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-2 py-1 rounded-full bg-brand/10 border border-brand/20">
             <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse-dot" />
-            <span className="text-brand text-[10px] font-medium" style={{ fontFamily: "var(--font-dm-sans)" }}>AI Active</span>
+            <span className="text-brand text-[10px] font-medium" style={{ fontFamily: "var(--font-outfit)" }}>AI Active</span>
           </div>
         </div>
       </div>
@@ -173,12 +173,12 @@ function InboxMockup() {
                 <div className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: e.unread ? "#22d3ee" : "transparent" }} />
                 <span
                   className="text-sm font-medium truncate"
-                  style={{ color: e.unread ? "#f1f5f9" : "#94a3b8", fontFamily: "var(--font-dm-sans)" }}
+                  style={{ color: e.unread ? "#f1f5f9" : "#94a3b8", fontFamily: "var(--font-outfit)" }}
                 >
                   {e.from}
                 </span>
               </div>
-              <span className="text-[11px] flex-shrink-0 text-slate-600" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              <span className="text-[11px] flex-shrink-0 text-slate-600" style={{ fontFamily: "var(--font-outfit)" }}>
                 {e.time} ago
               </span>
             </div>
@@ -189,12 +189,12 @@ function InboxMockup() {
                   color: e.tagHex,
                   background: `${e.tagHex}18`,
                   border: `1px solid ${e.tagHex}28`,
-                  fontFamily: "var(--font-dm-sans)",
+                  fontFamily: "var(--font-outfit)",
                 }}
               >
                 {e.tag}
               </span>
-              <span className="text-slate-600 text-xs truncate" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              <span className="text-slate-600 text-xs truncate" style={{ fontFamily: "var(--font-outfit)" }}>
                 {e.subject}
               </span>
             </div>
@@ -211,11 +211,11 @@ function InboxMockup() {
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
             <path d="M6 1l1.2 2.4L10 4l-2 2 .5 2.8L6 7.5l-2.5 1.3L4 6 2 4l2.8-.6L6 1z" fill="#f59e0b" fillOpacity="0.7"/>
           </svg>
-          <span className="text-amber/70 text-[11px]" style={{ fontFamily: "var(--font-dm-sans)" }}>
+          <span className="text-amber/70 text-[11px]" style={{ fontFamily: "var(--font-outfit)" }}>
             127 emails processed today
           </span>
         </div>
-        <span className="text-slate-700 text-[11px]" style={{ fontFamily: "var(--font-dm-sans)" }}>
+        <span className="text-slate-700 text-[11px]" style={{ fontFamily: "var(--font-outfit)" }}>
           2.4 hrs saved
         </span>
       </div>

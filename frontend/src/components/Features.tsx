@@ -75,13 +75,13 @@ export default function Features() {
         <div className="text-center mb-16">
           <span
             className="text-brand text-[11px] font-medium tracking-[0.16em] uppercase"
-            style={{ fontFamily: "var(--font-dm-sans)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Everything you need
           </span>
           <h2
             className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-[-0.02em] leading-tight"
-            style={{ fontFamily: "var(--font-syne)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Inbox superpowers,
             <br />
@@ -111,10 +111,10 @@ export default function Features() {
                 {f.icon}
               </div>
 
-              <h3 className="text-white font-semibold text-[17px] mb-2 tracking-tight" style={{ fontFamily: "var(--font-syne)" }}>
+              <h3 className="text-white font-semibold text-[17px] mb-2 tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
                 {f.title}
               </h3>
-              <p className="text-slate-500 text-sm leading-relaxed" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              <p className="text-slate-500 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
                 {f.desc}
               </p>
             </div>

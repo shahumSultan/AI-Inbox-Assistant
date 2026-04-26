@@ -6,7 +6,7 @@ export default function SocialProof() {
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <p
           className="text-center text-slate-700 text-[11px] font-medium tracking-[0.18em] uppercase mb-8"
-          style={{ fontFamily: "var(--font-dm-sans)" }}
+          style={{ fontFamily: "var(--font-outfit)" }}
         >
           Trusted by teams at
         </p>
@@ -15,7 +15,7 @@ export default function SocialProof() {
             <span
               key={name}
               className="text-slate-600 hover:text-slate-400 text-sm font-semibold tracking-tight transition-colors duration-300 cursor-default select-none"
-              style={{ fontFamily: "var(--font-syne)" }}
+              style={{ fontFamily: "var(--font-outfit)" }}
             >
               {name}
             </span>

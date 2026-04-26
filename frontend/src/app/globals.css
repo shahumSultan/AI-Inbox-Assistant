@@ -1,22 +1,23 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: var(--font-syne);
-  --font-body: var(--font-dm-sans);
-  --color-brand: #22d3ee;
-  --color-brand-muted: #0891b2;
-  --color-amber: #f59e0b;
-  --color-violet: #a78bfa;
+  --font-display: var(--font-outfit);
+  --font-body:    var(--font-outfit);
+  /* Primary brand: Indigo */
+  --color-brand:   oklch(64% 0.22 265);
+  /* Secondary: Cyan */
+  --color-accent:  oklch(72% 0.16 200);
+  /* Tertiary: Violet */
+  --color-violet:  oklch(64% 0.22 305);
+  /* Status green */
   --color-emerald: #34d399;
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
-  background: #080810;
-  color: #f8fafc;
+  background: #080E1F;   /* Midnight navy */
+  color: #EEF1F8;        /* Off-white */
 }
 
 /* ── Keyframes ── */
@@ -38,11 +39,6 @@ body {
 @keyframes gradient-drift {
   0%, 100% { background-position: 0% 50%; }
   50%       { background-position: 100% 50%; }
-}
-
-@keyframes shimmer {
-  0%   { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
 }
 
 /* ── Utilities ── */

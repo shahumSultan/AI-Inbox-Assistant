@@ -1,13 +1,13 @@
 const STEPS = [
   {
     num: "01",
-    accent: "#22d3ee",
+    accent: "oklch(64% 0.22 265)",
     title: "Connect Gmail",
     desc: "Link your Gmail account in under 30 seconds using Google OAuth. Your credentials never touch our servers.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M3 8l8 5 8-5" stroke="#22d3ee" strokeWidth="1.5" strokeLinecap="round"/>
-        <rect x="3" y="7" width="16" height="10" rx="2.5" stroke="#22d3ee" strokeWidth="1.5"/>
+        <path d="M3 8l8 5 8-5" stroke="oklch(64% 0.22 265)" strokeWidth="1.5" strokeLinecap="round"/>
+        <rect x="3" y="7" width="16" height="10" rx="2.5" stroke="oklch(64% 0.22 265)" strokeWidth="1.5"/>
       </svg>
     ),
   },
@@ -47,7 +47,7 @@ export default function HowItWorks() {
       {/* bg glow */}
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(34,211,238,0.06) 0%, transparent 65%)" }}
+        style={{ background: "radial-gradient(ellipse, oklch(64% 0.22 265 / 0.1) 0%, transparent 65%)" }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
@@ -56,13 +56,13 @@ export default function HowItWorks() {
         <div className="text-center mb-20">
           <span
             className="text-brand text-[11px] font-medium tracking-[0.16em] uppercase"
-            style={{ fontFamily: "var(--font-dm-sans)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Dead-simple setup
           </span>
           <h2
             className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-[-0.02em]"
-            style={{ fontFamily: "var(--font-syne)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Running in{" "}
             <span className="text-slate-500">3 minutes</span>
@@ -75,7 +75,7 @@ export default function HowItWorks() {
           {/* connector */}
           <div
             className="hidden md:block absolute top-9 left-[calc(16.66%+32px)] right-[calc(16.66%+32px)] h-px"
-            style={{ background: "linear-gradient(90deg, rgba(34,211,238,0.35), rgba(167,139,250,0.35), rgba(52,211,153,0.35))" }}
+            style={{ background: "linear-gradient(90deg, oklch(64% 0.22 265 / 0.4), oklch(64% 0.22 305 / 0.35), oklch(72% 0.16 200 / 0.3))" }}
           />
 
           {STEPS.map((step) => (
@@ -93,20 +93,20 @@ export default function HowItWorks() {
                 <div
                   className="absolute -top-2 -right-2 w-[22px] h-[22px] rounded-full flex items-center justify-center text-[10px] font-bold"
                   style={{
-                    background: "#080810",
+                    background: "#080E1F",
                     border: `1px solid ${step.accent}60`,
                     color: step.accent,
-                    fontFamily: "var(--font-syne)",
+                    fontFamily: "var(--font-outfit)",
                   }}
                 >
                   {step.num.slice(1)}
                 </div>
               </div>
 
-              <h3 className="text-white font-bold text-xl mb-3" style={{ fontFamily: "var(--font-syne)" }}>
+              <h3 className="text-white font-bold text-xl mb-3" style={{ fontFamily: "var(--font-outfit)" }}>
                 {step.title}
               </h3>
-              <p className="text-slate-500 text-sm leading-relaxed max-w-[260px]" style={{ fontFamily: "var(--font-dm-sans)" }}>
+              <p className="text-slate-500 text-sm leading-relaxed max-w-[260px]" style={{ fontFamily: "var(--font-outfit)" }}>
                 {step.desc}
               </p>
             </div>

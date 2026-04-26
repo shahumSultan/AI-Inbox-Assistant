@@ -71,19 +71,19 @@ export default function Pricing() {
         <div className="text-center mb-16">
           <span
             className="text-brand text-[11px] font-medium tracking-[0.16em] uppercase"
-            style={{ fontFamily: "var(--font-dm-sans)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Simple pricing
           </span>
           <h2
             className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-[-0.02em]"
-            style={{ fontFamily: "var(--font-syne)" }}
+            style={{ fontFamily: "var(--font-outfit)" }}
           >
             Pay for what you use.
             <br />
             <span className="text-slate-500">Nothing more.</span>
           </h2>
-          <p className="text-slate-600 mt-4 text-sm" style={{ fontFamily: "var(--font-dm-sans)" }}>
+          <p className="text-slate-600 mt-4 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
             All plans include a 14-day free trial. No credit card required.
           </p>
         </div>
@@ -105,12 +105,12 @@ function PricingCard({ plan }: { plan: Plan }) {
         plan.disabled ? "opacity-55" : ""
       } ${
         plan.highlighted
-          ? "border-brand/35 shadow-[0_0_60px_rgba(34,211,238,0.1),0_0_0_1px_rgba(34,211,238,0.08)]"
+          ? "border-brand/35 shadow-[0_0_60px_oklch(64%_0.22_265/0.12),0_0_0_1px_oklch(64%_0.22_265/0.1)]"
           : "border-white/[0.07] hover:border-white/[0.12]"
       }`}
       style={{
         background: plan.highlighted
-          ? "linear-gradient(160deg, rgba(34,211,238,0.07) 0%, rgba(10,10,22,0.97) 45%)"
+          ? "linear-gradient(160deg, oklch(64% 0.22 265 / 0.1) 0%, #080E1F 50%)"
           : "rgba(255,255,255,0.02)",
       }}
     >
@@ -119,10 +119,10 @@ function PricingCard({ plan }: { plan: Plan }) {
         <div
           className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap"
           style={{
-            fontFamily: "var(--font-dm-sans)",
-            background: plan.highlighted ? "#22d3ee" : "rgba(255,255,255,0.08)",
-            color: plan.highlighted ? "#061118" : "#64748b",
-            boxShadow: plan.highlighted ? "0 0 20px rgba(34,211,238,0.35)" : "none",
+            fontFamily: "var(--font-outfit)",
+            background: plan.highlighted ? "oklch(64% 0.22 265)" : "rgba(255,255,255,0.08)",
+            color: plan.highlighted ? "#fff" : "#64748b",
+            boxShadow: plan.highlighted ? "0 0 20px oklch(64% 0.22 265 / 0.4)" : "none",
           }}
         >
           {plan.badge}
@@ -131,20 +131,20 @@ function PricingCard({ plan }: { plan: Plan }) {
 
       {/* Name & desc */}
       <div className="mb-6">
-        <h3 className="text-white font-bold text-xl mb-1.5" style={{ fontFamily: "var(--font-syne)" }}>
+        <h3 className="text-white font-bold text-xl mb-1.5" style={{ fontFamily: "var(--font-outfit)" }}>
           {plan.name}
         </h3>
-        <p className="text-slate-500 text-sm leading-relaxed" style={{ fontFamily: "var(--font-dm-sans)" }}>
+        <p className="text-slate-500 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
           {plan.desc}
         </p>
       </div>
 
       {/* Price */}
       <div className="flex items-end gap-1.5 mb-6">
-        <span className="text-5xl font-bold text-white leading-none" style={{ fontFamily: "var(--font-syne)" }}>
+        <span className="text-5xl font-bold text-white leading-none" style={{ fontFamily: "var(--font-outfit)" }}>
           ${plan.price}
         </span>
-        <span className="text-slate-500 text-sm mb-1" style={{ fontFamily: "var(--font-dm-sans)" }}>
+        <span className="text-slate-500 text-sm mb-1" style={{ fontFamily: "var(--font-outfit)" }}>
           / month
         </span>
       </div>
@@ -152,7 +152,7 @@ function PricingCard({ plan }: { plan: Plan }) {
       {/* Divider */}
       <div
         className="h-px w-full mb-6"
-        style={{ background: plan.highlighted ? "rgba(34,211,238,0.18)" : "rgba(255,255,255,0.06)" }}
+        style={{ background: plan.highlighted ? "oklch(64% 0.22 265 / 0.2)" : "rgba(255,255,255,0.06)" }}
       />
 
       {/* Features */}
@@ -162,13 +162,13 @@ function PricingCard({ plan }: { plan: Plan }) {
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="flex-shrink-0 mt-[1px]">
               <path
                 d="M3 7.5l3 3 6-6"
-                stroke={plan.highlighted ? "#22d3ee" : "#334155"}
+                stroke={plan.highlighted ? "oklch(72% 0.16 200)" : "#334155"}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="text-slate-400 text-sm leading-relaxed" style={{ fontFamily: "var(--font-dm-sans)" }}>
+            <span className="text-slate-400 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
               {feat}
             </span>
           </li>
@@ -180,12 +180,12 @@ function PricingCard({ plan }: { plan: Plan }) {
         disabled={plan.disabled}
         className={`w-full py-3.5 rounded-xl text-sm font-semibold transition-all duration-200 ${
           plan.highlighted
-            ? "bg-brand text-slate-950 hover:bg-cyan-300 hover:shadow-[0_0_28px_rgba(34,211,238,0.45)]"
+            ? "bg-brand text-white hover:brightness-110 hover:shadow-[0_0_28px_oklch(64%_0.22_265/0.45)]"
             : plan.disabled
             ? "bg-white/[0.04] text-slate-600 cursor-not-allowed border border-white/[0.05]"
             : "bg-white/[0.04] text-slate-300 hover:bg-white/[0.08] border border-white/[0.07] hover:border-white/[0.12]"
         }`}
-        style={{ fontFamily: "var(--font-dm-sans)" }}
+        style={{ fontFamily: "var(--font-outfit)" }}
       >
         {plan.cta}
       </button>
