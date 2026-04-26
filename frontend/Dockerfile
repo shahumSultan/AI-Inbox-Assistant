@@ -6,6 +6,11 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 
+# Dev (hot-reload with mounted source)
+FROM deps AS dev
+WORKDIR /app
+EXPOSE 3000
+
 # Build
 FROM base AS builder
 WORKDIR /app

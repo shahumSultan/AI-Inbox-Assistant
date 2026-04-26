@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 import LogoMark from "./LogoMark";
 
 const NAV_LINKS = ["Features", "Pricing", "About"] as const;
@@ -56,20 +57,20 @@ export default function Navbar() {
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
-            <a
-              href="#"
+            <Link
+              href="/login"
               className="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
               Sign in
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              href="/register"
               className="px-5 py-2 rounded-full text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_oklch(64%_0.22_265/0.45)]"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
               Get Started
-            </a>
+            </Link>
           </div>
 
           {/* Mobile burger */}
@@ -108,14 +109,22 @@ export default function Navbar() {
                 {item}
               </a>
             ))}
-            <a
-              href="#"
-              className="mt-3 py-2.5 rounded-full text-sm text-center font-semibold text-white bg-brand"
+            <Link
+              href="/login"
+              className="text-slate-400 hover:text-white px-1 py-2 text-sm transition-colors"
+              style={{ fontFamily: "var(--font-outfit)" }}
+              onClick={() => setOpen(false)}
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/register"
+              className="mt-1 py-2.5 rounded-full text-sm text-center font-semibold text-white bg-brand"
               style={{ fontFamily: "var(--font-outfit)" }}
               onClick={() => setOpen(false)}
             >
               Get Started
-            </a>
+            </Link>
           </div>
         </div>
       </div>
