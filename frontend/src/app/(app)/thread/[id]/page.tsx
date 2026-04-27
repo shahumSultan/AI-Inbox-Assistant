@@ -96,15 +96,27 @@ export default function ThreadPage() {
   return (
     <div className="flex flex-col px-8 py-10 max-w-3xl mx-auto w-full">
 
-      <button
-        onClick={() => router.push("/dashboard")}
-        className="flex items-center gap-2 text-white/30 hover:text-white/60 text-sm mb-8 transition-colors w-fit"
-      >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        </svg>
-        Dashboard
-      </button>
+      <div className="flex items-center justify-between mb-8">
+        <button
+          onClick={() => router.push("/dashboard")}
+          className="flex items-center gap-2 text-white/30 hover:text-white/60 text-sm transition-colors"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+          Dashboard
+        </button>
+        <button
+          onClick={() => router.push(`/reply/${thread.id}`)}
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
+        >
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+            <path d="M1 7.5L5 3l4 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M5 3v8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
+          </svg>
+          Generate Reply
+        </button>
+      </div>
 
       {/* Thread header card */}
       <div className="rounded-2xl border border-white/[0.08] p-6 mb-5" style={{ background: "rgba(255,255,255,0.025)" }}>
