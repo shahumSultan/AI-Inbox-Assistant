@@ -36,13 +36,13 @@ export default function DashboardPage() {
   const loading = threads === null && !error;
 
   return (
-    <div className="flex flex-col h-full px-8 py-10">
+    <div className="flex flex-col h-full px-8 py-10 dark:text-white text-slate-900">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-10">
         <div>
-          <h1 className="text-white text-3xl font-bold tracking-tight mb-1">Dashboard</h1>
-          <p className="text-white/40 text-sm">Your communication command centre</p>
+          <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Dashboard</h1>
+          <p className="dark:text-white/40 text-slate-500 text-slate-500 text-sm">Your communication command centre</p>
         </div>
         {threads && threads.length > 0 && (
           <Link
@@ -65,7 +65,7 @@ export default function DashboardPage() {
               <circle cx="12" cy="12" r="9" stroke="rgba(6,182,212,0.25)" strokeWidth="2"/>
               <path d="M12 3a9 9 0 019 9" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round"/>
             </svg>
-            <p className="text-white/30 text-sm">Loading threads…</p>
+            <p className="dark:text-white/30 text-slate-400 text-sm">Loading threads…</p>
           </div>
         </div>
       )}
@@ -88,8 +88,8 @@ export default function DashboardPage() {
                 <path d="M10 14h8" stroke="#06b6d4" strokeWidth="1.8" strokeLinecap="round"/>
               </svg>
             </div>
-            <h2 className="text-white text-xl font-bold mb-3 tracking-tight">No threads yet</h2>
-            <p className="text-white/40 text-sm leading-relaxed mb-8">
+            <h2 className="dark:text-white text-slate-900 text-xl font-bold mb-3 tracking-tight">No threads yet</h2>
+            <p className="dark:text-white/40 text-slate-500 text-slate-500 text-sm leading-relaxed mb-8">
               Paste your first email thread and let AI tell you exactly what to do, what to say, and when to follow up.
             </p>
             <Link
@@ -115,11 +115,11 @@ export default function DashboardPage() {
               <Link
                 key={thread.id}
                 href={`/thread/${thread.id}`}
-                className="block rounded-2xl border border-white/[0.07] p-5 transition-all duration-200 hover:border-white/[0.14] hover:bg-white/[0.03] group"
-                style={{ background: "rgba(255,255,255,0.025)" }}
+                className="block rounded-2xl border dark:border-white/[0.07] border-slate-200 p-5 transition-all duration-200 dark:hover:border-white/[0.14] hover:border-slate-300 hover:dark:bg-white/[0.03] bg-slate-100 group"
+                style={{ background: "var(--surface)" }}
               >
                 <div className="flex items-start justify-between gap-4 mb-2">
-                  <h3 className="text-white font-semibold text-base leading-snug group-hover:text-brand transition-colors">
+                  <h3 className="dark:text-white text-slate-900 font-semibold text-base leading-snug group-hover:text-brand transition-colors">
                     {thread.title}
                   </h3>
                   <span
@@ -129,9 +129,9 @@ export default function DashboardPage() {
                     {p.label}
                   </span>
                 </div>
-                <p className="text-white/40 text-sm leading-relaxed mb-3 line-clamp-2">{thread.summary}</p>
+                <p className="dark:text-white/40 text-slate-500 text-slate-500 text-sm leading-relaxed mb-3 line-clamp-2">{thread.summary}</p>
                 <div className="flex items-center gap-4">
-                  <span className="text-white/20 text-xs">
+                  <span className="dark:text-white/20 text-slate-300 text-xs">
                     {new Date(thread.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}
                   </span>
                   {openActions > 0 && (

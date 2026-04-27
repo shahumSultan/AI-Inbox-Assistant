@@ -41,7 +41,7 @@ export default function RegisterPage() {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4 bg-black"
+      className="min-h-screen flex items-center justify-center px-4 dark:bg-black bg-slate-100"
       style={{
         backgroundImage: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(6,182,212,0.12) 0%, transparent 60%)",
       }}
@@ -53,38 +53,38 @@ export default function RegisterPage() {
           <div className="mb-3 transition-all duration-300 group-hover:drop-shadow-[0_0_16px_rgba(6,182,212,0.6)]">
             <LogoMark size={44} />
           </div>
-          <span className="text-white font-bold text-xl tracking-tight">
+          <span className="dark:text-white text-slate-900 font-bold text-xl tracking-tight">
             Inbox<span className="text-brand">AI</span>
           </span>
         </Link>
 
         {/* Card */}
-        <div className="rounded-2xl border border-white/[0.08] p-8" style={{ background: "rgba(255,255,255,0.03)" }}>
-          <h1 className="text-white text-2xl font-bold mb-1 tracking-tight">Create your account</h1>
-          <p className="text-white/40 text-sm mb-8">Free for 14 days — no card required</p>
+        <div className="rounded-2xl dark:border-white/[0.08] border-slate-200 border p-8" style={{ background: "var(--surface)" }}>
+          <h1 className="dark:text-white text-slate-900 text-2xl font-bold mb-1 tracking-tight">Create your account</h1>
+          <p className="dark:text-white/40 text-slate-500 text-slate-500 text-sm mb-8">Free for 14 days — no card required</p>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div>
-              <label className="block text-white/50 text-xs font-medium mb-1.5">Email</label>
+              <label className="block dark:text-white/50 text-slate-500 text-xs font-medium mb-1.5">Email</label>
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none bg-white/[0.04] border border-white/[0.09] focus:border-brand/50 focus:ring-1 focus:ring-brand/30 transition-all duration-200"
+                className="w-full rounded-xl px-4 py-3 text-sm text-white dark:placeholder-white/20 placeholder-slate-300 placeholder-slate-300 outline-none dark:bg-white/[0.04] bg-slate-100 dark:border-white/[0.09] border-slate-200 bg-white border-slate-200 focus:border-brand/50 focus:ring-1 focus:ring-brand/30 transition-all duration-200"
                 placeholder="you@example.com"
               />
             </div>
 
             <div>
-              <label className="block text-white/50 text-xs font-medium mb-1.5">Password</label>
+              <label className="block dark:text-white/50 text-slate-500 text-xs font-medium mb-1.5">Password</label>
               <input
                 type="password"
                 required
                 minLength={8}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/20 outline-none bg-white/[0.04] border border-white/[0.09] focus:border-brand/50 focus:ring-1 focus:ring-brand/30 transition-all duration-200"
+                className="w-full rounded-xl px-4 py-3 text-sm text-white dark:placeholder-white/20 placeholder-slate-300 placeholder-slate-300 outline-none dark:bg-white/[0.04] bg-slate-100 dark:border-white/[0.09] border-slate-200 bg-white border-slate-200 focus:border-brand/50 focus:ring-1 focus:ring-brand/30 transition-all duration-200"
                 placeholder="Min. 8 characters"
               />
             </div>
@@ -105,7 +105,7 @@ export default function RegisterPage() {
           </form>
         </div>
 
-        <p className="text-center text-white/25 text-sm mt-6">
+        <p className="text-center dark:text-white/25 text-slate-400 text-sm mt-6">
           Already have an account?{" "}
           <Link href="/login" className="text-brand hover:text-brand/80 transition-colors">
             Sign in

@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Enable class-based dark mode: add .dark to <html> for dark, .light for light */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: var(--font-outfit);
   --font-body:    var(--font-outfit);
@@ -13,10 +16,29 @@
   --color-sky:     #60a5fa;   /* sky-400               */
 }
 
+/* Dark mode (default) */
 :root {
-  /* Raw values for use inside CSS expressions (gradients, rgba, etc.) */
   --brand-rgb:  6, 182, 212;
   --accent-rgb: 249, 115, 22;
+
+  --page-bg:    #000000;
+  --surface:    rgba(255,255,255,0.025);
+  --surface-2:  rgba(255,255,255,0.04);
+  --surface-3:  rgba(255,255,255,0.07);
+  --sidebar-bg: rgba(0,0,0,0.6);
+  --border:     rgba(255,255,255,0.07);
+  --border-2:   rgba(255,255,255,0.12);
+}
+
+/* Light mode */
+html.light {
+  --page-bg:    #f1f5f9;
+  --surface:    rgba(255,255,255,0.9);
+  --surface-2:  rgba(255,255,255,0.7);
+  --surface-3:  rgba(0,0,0,0.05);
+  --sidebar-bg: rgba(255,255,255,0.95);
+  --border:     rgba(0,0,0,0.08);
+  --border-2:   rgba(0,0,0,0.14);
 }
 
 /* ── Base ── */
@@ -26,9 +48,14 @@ html {
 }
 
 body {
-  background: #000;
+  background: var(--page-bg);
   color: #fff;
   font-family: var(--font-outfit), system-ui, sans-serif;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+html.light body {
+  color: #0f172a;
 }
 
 /* ── Gradient utilities ── */

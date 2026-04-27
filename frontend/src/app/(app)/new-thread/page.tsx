@@ -73,15 +73,15 @@ export default function NewThreadPage() {
     <div className="flex flex-col h-full px-8 py-10 max-w-3xl mx-auto w-full">
 
       <div className="mb-8">
-        <h1 className="text-white text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
-        <p className="text-white/40 text-sm">Paste an email thread and get instant AI-powered next steps</p>
+        <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
+        <p className="dark:text-white/40 text-slate-500 text-sm">Paste an email thread and get instant AI-powered next steps</p>
       </div>
 
       {!result && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="rounded-2xl border border-white/[0.08] overflow-hidden" style={{ background: "rgba(255,255,255,0.025)" }}>
-            <div className="px-4 pt-4 pb-1 border-b border-white/[0.06]">
-              <p className="text-white/30 text-xs font-medium uppercase tracking-wider">Email Thread</p>
+          <div className="rounded-2xl dark:border-white/[0.08] border-slate-200 border overflow-hidden" style={{ background: "var(--surface)" }}>
+            <div className="px-4 pt-4 pb-1 border-b dark:border-white/[0.06] border-slate-200">
+              <p className="dark:text-white/30 text-slate-400 text-xs font-medium uppercase tracking-wider">Email Thread</p>
             </div>
             <textarea
               value={text}
@@ -89,7 +89,7 @@ export default function NewThreadPage() {
               required
               minLength={20}
               rows={14}
-              className="w-full px-4 py-4 text-sm text-white/70 placeholder-white/20 bg-transparent outline-none resize-none"
+              className="w-full px-4 py-4 text-sm dark:text-white/70 text-slate-600 dark:placeholder-white/20 placeholder-slate-300 bg-transparent outline-none resize-none"
               placeholder={"From: sender@company.com\nTo: you@yourcompany.com\nSubject: Q2 Budget Review\n\nPaste the full email thread here — include all replies for best results…"}
             />
           </div>
@@ -99,7 +99,7 @@ export default function NewThreadPage() {
           )}
 
           <div className="flex items-center justify-between">
-            <span className="text-white/25 text-xs">
+            <span className="dark:text-white/25 text-slate-400 text-xs">
               {text.length > 0 ? `${text.length.toLocaleString()} characters` : "Supports any email format"}
             </span>
             <button
@@ -130,9 +130,9 @@ export default function NewThreadPage() {
       {result && p && (
         <div className="flex flex-col gap-5">
           {/* Summary card */}
-          <div className="rounded-2xl border border-white/[0.08] p-6" style={{ background: "rgba(255,255,255,0.025)" }}>
+          <div className="rounded-2xl dark:border-white/[0.08] border-slate-200 border p-6" style={{ background: "var(--surface)" }}>
             <div className="flex items-start justify-between gap-4 mb-4">
-              <h2 className="text-white text-lg font-bold leading-snug">{result.title}</h2>
+              <h2 className="dark:text-white text-slate-900 text-lg font-bold leading-snug">{result.title}</h2>
               <span
                 className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full"
                 style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}
@@ -140,16 +140,16 @@ export default function NewThreadPage() {
                 P{result.priority_score} {p.label}
               </span>
             </div>
-            <p className="text-white/50 text-sm leading-relaxed mb-4">{result.summary}</p>
+            <p className="dark:text-white/50 text-slate-500 text-sm leading-relaxed mb-4">{result.summary}</p>
             <div className="rounded-xl px-4 py-3 bg-brand/[0.07] border border-brand/15">
-              <span className="text-white/30 text-xs uppercase tracking-wider mr-2">Intent</span>
-              <span className="text-white/70 text-sm">{result.primary_intent}</span>
+              <span className="dark:text-white/30 text-slate-400 text-xs uppercase tracking-wider mr-2">Intent</span>
+              <span className="dark:text-white/70 text-slate-600 text-sm">{result.primary_intent}</span>
             </div>
             <div className="flex items-center justify-between mt-4">
-              <span className="text-white/25 text-xs">{Math.round(result.confidence_score * 100)}% confidence</span>
+              <span className="dark:text-white/25 text-slate-400 text-xs">{Math.round(result.confidence_score * 100)}% confidence</span>
               <button
                 onClick={() => { setResult(null); setText(""); }}
-                className="text-white/30 hover:text-white/60 text-xs transition-colors"
+                className="dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 text-xs transition-colors"
               >
                 ← Analyse another thread
               </button>
@@ -158,21 +158,21 @@ export default function NewThreadPage() {
 
           {/* Actions */}
           <div>
-            <h3 className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">
+            <h3 className="dark:text-white/30 text-slate-400 text-xs font-medium uppercase tracking-wider mb-3">
               Recommended Actions ({result.actions.length})
             </h3>
             <div className="flex flex-col gap-3">
               {result.actions.map((action) => {
                 const ap = PRIORITY[action.priority] ?? PRIORITY[3];
                 return (
-                  <div key={action.id} className="rounded-xl border border-white/[0.07] p-4" style={{ background: "rgba(255,255,255,0.02)" }}>
+                  <div key={action.id} className="rounded-xl dark:border-white/[0.07] border-slate-200 border p-4" style={{ background: "var(--surface)" }}>
                     <div className="flex items-start gap-3">
                       <span className="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5 bg-brand/10 text-brand">
                         {ACTION_ICON[action.type] ?? "•"}
                       </span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-white text-sm font-semibold">{action.title}</span>
+                          <span className="dark:text-white text-slate-900 text-sm font-semibold">{action.title}</span>
                           <span
                             className="text-[10px] font-medium px-1.5 py-0.5 rounded-full capitalize"
                             style={{ background: `${ap.color}15`, color: ap.color }}
@@ -180,15 +180,15 @@ export default function NewThreadPage() {
                             {action.type.replace("_", " ")}
                           </span>
                         </div>
-                        <p className="text-white/50 text-sm leading-relaxed">{action.suggested_next_step}</p>
+                        <p className="dark:text-white/50 text-slate-500 text-sm leading-relaxed">{action.suggested_next_step}</p>
                         {action.due_date && (
-                          <p className="text-white/20 text-xs mt-1">
+                          <p className="dark:text-white/20 text-slate-300 text-xs mt-1">
                             Due: {new Date(action.due_date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                           </p>
                         )}
                         {action.suggested_text && (
                           <div className="mt-3">
-                            <div className="rounded-xl p-3 text-sm text-white/60 mb-2 leading-relaxed whitespace-pre-wrap border border-white/[0.07]" style={{ background: "rgba(255,255,255,0.04)" }}>
+                            <div className="rounded-xl p-3 text-sm dark:text-white/60 text-slate-500 mb-2 leading-relaxed whitespace-pre-wrap dark:border-white/[0.07] border-slate-200 border" style={{ background: "var(--surface-2)" }}>
                               {action.suggested_text}
                             </div>
                             <button
@@ -213,7 +213,7 @@ export default function NewThreadPage() {
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <button onClick={() => { setResult(null); setText(""); }} className="text-white/30 hover:text-white/60 text-sm transition-colors">
+            <button onClick={() => { setResult(null); setText(""); }} className="dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 text-sm transition-colors">
               ← Analyse another
             </button>
             <button

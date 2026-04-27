@@ -75,7 +75,7 @@ export default function ThreadPage() {
   if (error) return (
     <div className="px-8 py-10">
       <p className="text-red-400 text-sm">{error}</p>
-      <button onClick={() => router.back()} className="text-white/30 text-sm mt-4 hover:text-white/60 transition-colors">← Back</button>
+      <button onClick={() => router.back()} className="dark:text-white/30 text-slate-400 text-sm mt-4 hover:dark:text-white/60 text-slate-500 transition-colors">← Back</button>
     </div>
   );
 
@@ -85,7 +85,7 @@ export default function ThreadPage() {
         <circle cx="12" cy="12" r="9" stroke="rgba(6,182,212,0.25)" strokeWidth="2"/>
         <path d="M12 3a9 9 0 019 9" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round"/>
       </svg>
-      <span className="text-white/30 text-sm">Loading…</span>
+      <span className="dark:text-white/30 text-slate-400 text-sm">Loading…</span>
     </div>
   );
 
@@ -99,7 +99,7 @@ export default function ThreadPage() {
       <div className="flex items-center justify-between mb-8">
         <button
           onClick={() => router.push("/dashboard")}
-          className="flex items-center gap-2 text-white/30 hover:text-white/60 text-sm transition-colors"
+          className="flex items-center gap-2 dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 text-sm transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -119,9 +119,9 @@ export default function ThreadPage() {
       </div>
 
       {/* Thread header card */}
-      <div className="rounded-2xl border border-white/[0.08] p-6 mb-5" style={{ background: "rgba(255,255,255,0.025)" }}>
+      <div className="rounded-2xl dark:border-white/[0.08] border-slate-200 border p-6 mb-5" style={{ background: "var(--surface)" }}>
         <div className="flex items-start justify-between gap-4 mb-4">
-          <h1 className="text-white text-xl font-bold leading-snug">{thread.title}</h1>
+          <h1 className="dark:text-white text-slate-900 text-xl font-bold leading-snug">{thread.title}</h1>
           <span
             className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full"
             style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}
@@ -129,12 +129,12 @@ export default function ThreadPage() {
             P{thread.priority_score} {p.label}
           </span>
         </div>
-        <p className="text-white/50 text-sm leading-relaxed mb-4">{thread.summary}</p>
+        <p className="dark:text-white/50 text-slate-500 text-sm leading-relaxed mb-4">{thread.summary}</p>
         <div className="rounded-xl px-4 py-3 mb-4 bg-brand/[0.07] border border-brand/15">
-          <span className="text-white/30 text-xs uppercase tracking-wider mr-2">Intent</span>
-          <span className="text-white/70 text-sm">{thread.primary_intent}</span>
+          <span className="dark:text-white/30 text-slate-400 text-xs uppercase tracking-wider mr-2">Intent</span>
+          <span className="dark:text-white/70 text-slate-600 text-sm">{thread.primary_intent}</span>
         </div>
-        <div className="flex items-center gap-4 text-xs text-white/25">
+        <div className="flex items-center gap-4 text-xs dark:text-white/25 text-slate-400">
           <span>{Math.round(thread.confidence_score * 100)}% confidence</span>
           <span>·</span>
           <span>{new Date(thread.created_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })}</span>
@@ -146,36 +146,36 @@ export default function ThreadPage() {
       {/* Open actions */}
       {openActions.length > 0 && (
         <div className="mb-5">
-          <h2 className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">
+          <h2 className="dark:text-white/30 text-slate-400 text-xs font-medium uppercase tracking-wider mb-3">
             Actions ({openActions.length})
           </h2>
           <div className="flex flex-col gap-3">
             {openActions.map((action) => (
-              <div key={action.id} className="rounded-xl border border-white/[0.07] p-4" style={{ background: "rgba(255,255,255,0.02)" }}>
+              <div key={action.id} className="rounded-xl dark:border-white/[0.07] border-slate-200 border p-4" style={{ background: "var(--surface)" }}>
                 <div className="flex items-start gap-3">
                   <span className="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5 bg-brand/10 text-brand">
                     {ACTION_ICON[action.type] ?? "•"}
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-white text-sm font-semibold">{action.title}</span>
+                      <span className="dark:text-white text-slate-900 text-sm font-semibold">{action.title}</span>
                       <button
                         onClick={() => markDone(action.id)}
                         disabled={completing === action.id}
-                        className="text-xs px-2.5 py-1 rounded-lg transition-all duration-150 flex-shrink-0 text-white/30 hover:text-white/60 border border-white/[0.08] hover:border-white/[0.16] bg-white/[0.04] hover:bg-white/[0.07]"
+                        className="text-xs px-2.5 py-1 rounded-lg transition-all duration-150 flex-shrink-0 dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 dark:border-white/[0.08] border-slate-200 border hover:dark:border-white/[0.16] border-slate-300 dark:bg-white/[0.04] bg-slate-100 hover:dark:bg-white/[0.07] bg-slate-200"
                       >
                         {completing === action.id ? "…" : "Mark done"}
                       </button>
                     </div>
-                    <p className="text-white/50 text-sm leading-relaxed">{action.suggested_next_step}</p>
+                    <p className="dark:text-white/50 text-slate-500 text-sm leading-relaxed">{action.suggested_next_step}</p>
                     {action.due_date && (
-                      <p className="text-white/20 text-xs mt-1">
+                      <p className="dark:text-white/20 text-slate-300 text-xs mt-1">
                         Due: {new Date(action.due_date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                       </p>
                     )}
                     {action.suggested_text && (
                       <div className="mt-3">
-                        <div className="rounded-xl p-3 text-sm text-white/60 mb-2 leading-relaxed whitespace-pre-wrap border border-white/[0.07]" style={{ background: "rgba(255,255,255,0.04)" }}>
+                        <div className="rounded-xl p-3 text-sm dark:text-white/60 text-slate-500 mb-2 leading-relaxed whitespace-pre-wrap dark:border-white/[0.07] border-slate-200 border" style={{ background: "var(--surface-2)" }}>
                           {action.suggested_text}
                         </div>
                         <button
@@ -202,14 +202,14 @@ export default function ThreadPage() {
       {/* Done actions */}
       {doneActions.length > 0 && (
         <div>
-          <h2 className="text-white/20 text-xs font-medium uppercase tracking-wider mb-3">
+          <h2 className="dark:text-white/20 text-slate-300 text-xs font-medium uppercase tracking-wider mb-3">
             Completed ({doneActions.length})
           </h2>
           <div className="flex flex-col gap-2">
             {doneActions.map((action) => (
               <div key={action.id} className="rounded-xl border border-white/[0.05] px-4 py-3 flex items-center gap-3" style={{ background: "rgba(255,255,255,0.01)" }}>
-                <span className="text-white/20 text-sm">{ACTION_ICON[action.type] ?? "•"}</span>
-                <span className="text-white/20 text-sm line-through">{action.title}</span>
+                <span className="dark:text-white/20 text-slate-300 text-sm">{ACTION_ICON[action.type] ?? "•"}</span>
+                <span className="dark:text-white/20 text-slate-300 text-sm line-through">{action.title}</span>
               </div>
             ))}
           </div>

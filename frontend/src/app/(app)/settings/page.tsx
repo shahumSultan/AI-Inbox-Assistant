@@ -21,9 +21,9 @@ const TONES = ["professional", "friendly", "concise", "formal"] as const;
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-white/[0.07] overflow-hidden" style={{ background: "rgba(255,255,255,0.025)" }}>
-      <div className="px-6 py-4 border-b border-white/[0.06]">
-        <h2 className="text-white font-semibold text-sm">{title}</h2>
+    <div className="rounded-2xl dark:border-white/[0.07] border-slate-200 border overflow-hidden" style={{ background: "var(--surface)" }}>
+      <div className="px-6 py-4 border-b dark:border-white/[0.06] border-slate-200">
+        <h2 className="dark:text-white text-slate-900 font-semibold text-sm">{title}</h2>
       </div>
       <div className="px-6 py-5 flex flex-col gap-5">{children}</div>
     </div>
@@ -34,8 +34,8 @@ function Field({ label, hint, children }: { label: string; hint?: string; childr
   return (
     <div className="flex flex-col sm:flex-row sm:items-start gap-3">
       <div className="sm:w-48 flex-shrink-0 pt-0.5">
-        <p className="text-white/70 text-sm font-medium">{label}</p>
-        {hint && <p className="text-white/25 text-xs mt-0.5 leading-relaxed">{hint}</p>}
+        <p className="dark:text-white/70 text-slate-600 text-sm font-medium">{label}</p>
+        {hint && <p className="dark:text-white/25 text-slate-400 text-xs mt-0.5 leading-relaxed">{hint}</p>}
       </div>
       <div className="flex-1">{children}</div>
     </div>
@@ -156,8 +156,8 @@ export default function SettingsPage() {
     <div className="px-8 py-10 max-w-2xl mx-auto w-full">
 
       <div className="mb-8">
-        <h1 className="text-white text-3xl font-bold tracking-tight mb-1">Settings</h1>
-        <p className="text-white/40 text-sm">Manage your account and preferences</p>
+        <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Settings</h1>
+        <p className="dark:text-white/40 text-slate-500 text-sm">Manage your account and preferences</p>
       </div>
 
       <div className="flex flex-col gap-6">
@@ -165,8 +165,8 @@ export default function SettingsPage() {
         {/* ── Account ── */}
         <Section title="Account">
           <Field label="Email address" hint="Used to sign in — cannot be changed">
-            <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl border border-white/[0.07] bg-white/[0.03]">
-              <span className="text-white/50 text-sm">{me?.email ?? "…"}</span>
+            <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl dark:border-white/[0.07] border-slate-200 border dark:bg-white/[0.03] bg-slate-100">
+              <span className="dark:text-white/50 text-slate-500 text-sm">{me?.email ?? "…"}</span>
             </div>
           </Field>
 
@@ -189,7 +189,7 @@ export default function SettingsPage() {
               <p className="text-amber-400 text-sm">
                 {daysLeft} day{daysLeft !== 1 ? "s" : ""} remaining
                 {me?.trial_ends_at && (
-                  <span className="text-white/30 ml-2">
+                  <span className="dark:text-white/30 text-slate-400 ml-2">
                     ({new Date(me.trial_ends_at).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" })})
                   </span>
                 )}
@@ -211,7 +211,7 @@ export default function SettingsPage() {
                     className={`px-4 py-2 rounded-xl text-sm font-medium capitalize transition-all duration-150 border ${
                       tone === t
                         ? "bg-brand/15 border-brand/30 text-brand"
-                        : "bg-white/[0.04] border-white/[0.08] text-white/50 hover:text-white/80 hover:bg-white/[0.07]"
+                        : "dark:bg-white/[0.04] bg-slate-100 dark:border-white/[0.08] border-slate-200 dark:text-white/50 text-slate-500 hover:text-white/80 hover:dark:bg-white/[0.07] bg-slate-200"
                     }`}
                   >
                     {t}
@@ -228,9 +228,9 @@ export default function SettingsPage() {
                   max={30}
                   value={followupDays}
                   onChange={(e) => setFollowupDays(Number(e.target.value))}
-                  className="w-20 px-3 py-2 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white text-sm outline-none focus:border-brand/40 transition-colors"
+                  className="w-20 px-3 py-2 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors"
                 />
-                <span className="text-white/30 text-sm">days</span>
+                <span className="dark:text-white/30 text-slate-400 text-sm">days</span>
               </div>
             </Field>
 
@@ -240,7 +240,7 @@ export default function SettingsPage() {
                 onChange={(e) => setSignature(e.target.value)}
                 rows={4}
                 placeholder="e.g. Best regards,&#10;Your Name"
-                className="w-full px-3 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white/70 text-sm placeholder-white/20 outline-none resize-none focus:border-brand/40 transition-colors"
+                className="w-full px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white/70 text-slate-600 text-sm dark:placeholder-white/20 placeholder-slate-300 outline-none resize-none focus:border-brand/40 transition-colors"
               />
             </Field>
 
@@ -277,7 +277,7 @@ export default function SettingsPage() {
                   value={aiKey}
                   onChange={(e) => setAiKey(e.target.value)}
                   placeholder={me?.openai_api_key_hint ? me.openai_api_key_hint : "sk-..."}
-                  className="flex-1 px-3 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white text-sm outline-none focus:border-brand/40 transition-colors placeholder-white/20"
+                  className="flex-1 px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors dark:placeholder-white/20 placeholder-slate-300"
                 />
                 {me?.openai_api_key_hint && (
                   <button
@@ -324,7 +324,7 @@ export default function SettingsPage() {
                 value={currentPw}
                 onChange={(e) => setCurrentPw(e.target.value)}
                 required
-                className="w-full px-3 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white text-sm outline-none focus:border-brand/40 transition-colors"
+                className="w-full px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors"
                 placeholder="••••••••"
               />
             </Field>
@@ -336,7 +336,7 @@ export default function SettingsPage() {
                 onChange={(e) => setNewPw(e.target.value)}
                 required
                 minLength={8}
-                className="w-full px-3 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white text-sm outline-none focus:border-brand/40 transition-colors"
+                className="w-full px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors"
                 placeholder="••••••••"
               />
             </Field>
@@ -376,7 +376,7 @@ export default function SettingsPage() {
                   value={deleteConfirm}
                   onChange={(e) => setDeleteConfirm(e.target.value)}
                   placeholder='Type "DELETE" to confirm'
-                  className="w-full px-3 py-2.5 rounded-xl border border-red-500/20 bg-red-500/[0.05] text-white text-sm outline-none focus:border-red-500/40 transition-colors placeholder-white/20"
+                  className="w-full px-3 py-2.5 rounded-xl border border-red-500/20 bg-red-500/[0.05] dark:text-white text-slate-900 text-sm outline-none focus:border-red-500/40 transition-colors dark:placeholder-white/20 placeholder-slate-300"
                 />
                 {deleteError && (
                   <p className="text-red-400 text-xs">{deleteError}</p>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LogoMark from "@/components/LogoMark";
+import ThemeToggle from "@/components/ThemeToggle";
 import { clearAuth, getAuthUser, trialDaysRemaining, type AuthUser } from "@/lib/auth";
 
 const NAV = [
@@ -74,18 +75,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="flex h-screen bg-black"
+      className="flex h-screen dark:bg-black bg-slate-100"
       style={{
         backgroundImage: "radial-gradient(ellipse 70% 50% at 10% 0%, rgba(6,182,212,0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 90% 100%, rgba(249,115,22,0.05) 0%, transparent 50%)",
       }}
     >
       {/* ── Sidebar ── */}
-      <aside className="w-[220px] flex-shrink-0 flex flex-col border-r border-white/[0.06] bg-black/60">
+      <aside
+        className="w-[220px] flex-shrink-0 flex flex-col dark:border-white/[0.06] border-slate-200 border-r"
+        style={{ background: "var(--sidebar-bg)" }}
+      >
 
         {/* Logo */}
-        <div className="flex items-center gap-2.5 px-5 h-16 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2.5 px-5 h-16 dark:border-white/[0.06] border-slate-200 border-b">
           <LogoMark size={28} />
-          <span className="text-white font-bold text-base tracking-tight">
+          <span className="dark:text-white text-slate-900 font-bold text-base tracking-tight">
             Inbox<span className="text-brand">AI</span>
           </span>
         </div>
@@ -100,8 +104,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 href={href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   active
-                    ? "text-white bg-brand/10 border border-brand/20"
-                    : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
+                    ? "dark:text-white text-slate-900 bg-brand/10 border border-brand/20"
+                    : "dark:text-white/40 dark:hover:text-white/80 dark:hover:bg-white/[0.04] text-slate-500 hover:text-slate-800 hover:bg-slate-100"
                 }`}
               >
                 <span className={active ? "text-brand" : ""}>{icon}</span>
@@ -124,20 +128,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         )}
 
         {/* User footer */}
-        <div className="p-3 border-t border-white/[0.06]">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.03]">
+        <div className="p-3 dark:border-white/[0.06] border-slate-200 border-t">
+          <div className="flex items-center gap-2 mb-2">
+            <ThemeToggle className="flex-1 w-full rounded-lg" />
+          </div>
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl dark:bg-white/[0.03] bg-slate-100">
             <div className="w-7 h-7 rounded-full bg-brand/15 border border-brand/25 flex items-center justify-center flex-shrink-0">
               <span className="text-brand text-xs font-bold">
                 {user?.email?.[0]?.toUpperCase() ?? "?"}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-xs font-medium truncate">{user?.email ?? "…"}</p>
+              <p className="dark:text-white text-slate-900 text-xs font-medium truncate">{user?.email ?? "…"}</p>
               <p className="text-[10px] capitalize font-medium" style={{ color: planColor }}>{planLabel}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="text-white/20 hover:text-white/60 transition-colors flex-shrink-0"
+              className="dark:text-white/20 dark:hover:text-white/60 text-slate-300 hover:text-slate-600 transition-colors flex-shrink-0"
               title="Sign out"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
