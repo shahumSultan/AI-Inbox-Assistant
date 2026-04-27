@@ -7,7 +7,7 @@ import anthropic
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.deps import get_current_user, get_db
+from app.deps import get_current_user, get_db, require_active
 from app.models import Action, ConversationThread, User
 from app.prompts.analysis import ANALYSIS_PROMPT, SYSTEM_PROMPT
 from app.schemas.thread import AnalyseRequest, ThreadOut
@@ -38,7 +38,7 @@ def _call_claude(raw_text: str) -> dict[str, Any]:
 @router.post("/analyse", response_model=ThreadOut, status_code=201)
 def analyse_thread(
     body: AnalyseRequest,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_active),
     db: Session = Depends(get_db),
 ):
     if not os.getenv("LLM_API_KEY"):
@@ -94,7 +94,7 @@ def analyse_thread(
 
 @router.get("", response_model=list[ThreadOut])
 def list_threads(
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_active),
     db: Session = Depends(get_db),
 ):
     return (
@@ -108,7 +108,7 @@ def list_threads(
 @router.get("/{thread_id}", response_model=ThreadOut)
 def get_thread(
     thread_id: str,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_active),
     db: Session = Depends(get_db),
 ):
     thread = (

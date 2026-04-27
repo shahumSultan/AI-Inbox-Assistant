@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LogoMark from "@/components/LogoMark";
-import { clearAuth, getAuthUser, type AuthUser } from "@/lib/auth";
+import { clearAuth, getAuthUser, trialDaysRemaining, type AuthUser } from "@/lib/auth";
 
 const NAV = [
   {
@@ -54,6 +54,27 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     router.push("/");
   }
 
+  const daysLeft   = user ? trialDaysRemaining(user) : null;
+  const isExpired  = daysLeft !== null && daysLeft === 0;
+  const showBanner = daysLeft !== null && daysLeft > 0 && daysLeft <= 7;
+
+  // Plan label shown in sidebar footer
+  const planLabel = user?.is_admin
+    ? "admin"
+    : user?.plan !== "free"
+    ? user?.plan
+    : daysLeft !== null
+    ? `${daysLeft}d trial left`
+    : "free";
+
+  const planColor = user?.is_admin
+    ? "oklch(72% 0.16 200)"
+    : isExpired
+    ? "oklch(65% 0.25 15)"
+    : showBanner
+    ? "oklch(80% 0.18 85)"
+    : "#475569";
+
   return (
     <div className="flex h-screen" style={{ background: "#080E1F" }}>
 
@@ -92,6 +113,18 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
+        {/* Trial warning in sidebar */}
+        {showBanner && (
+          <div className="mx-3 mb-2 rounded-xl px-3 py-2.5" style={{ background: "oklch(80% 0.18 85 / 0.08)", border: "1px solid oklch(80% 0.18 85 / 0.2)" }}>
+            <p className="text-xs font-semibold mb-0.5" style={{ color: "oklch(80% 0.18 85)", fontFamily: "var(--font-outfit)" }}>
+              {daysLeft} day{daysLeft !== 1 ? "s" : ""} left in trial
+            </p>
+            <Link href="/#pricing" className="text-[11px] underline underline-offset-2" style={{ color: "oklch(80% 0.18 85 / 0.7)", fontFamily: "var(--font-outfit)" }}>
+              View plans →
+            </Link>
+          </div>
+        )}
+
         {/* User footer */}
         <div className="p-3 border-t border-white/[0.06]">
           <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
@@ -104,8 +137,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <p className="text-white text-xs font-medium truncate" style={{ fontFamily: "var(--font-outfit)" }}>
                 {user?.email ?? "…"}
               </p>
-              <p className="text-slate-600 text-[10px] capitalize" style={{ fontFamily: "var(--font-outfit)" }}>
-                {user?.plan ?? "free"}
+              <p className="text-[10px] capitalize" style={{ color: planColor, fontFamily: "var(--font-outfit)" }}>
+                {planLabel}
               </p>
             </div>
             <button
@@ -122,7 +155,45 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* ── Main ── */}
-      <main className="flex-1 overflow-y-auto">{children}</main>
+      <main className="flex-1 overflow-y-auto relative">
+        {isExpired ? (
+          <div className="flex items-center justify-center h-full px-8">
+            <div className="text-center max-w-sm">
+              <div
+                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
+                style={{ background: "oklch(65% 0.25 15 / 0.1)", border: "1px solid oklch(65% 0.25 15 / 0.25)" }}
+              >
+                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                  <circle cx="14" cy="14" r="10" stroke="oklch(65% 0.25 15)" strokeWidth="1.8"/>
+                  <path d="M14 9v5M14 18v1" stroke="oklch(65% 0.25 15)" strokeWidth="1.8" strokeLinecap="round"/>
+                </svg>
+              </div>
+              <h2 className="text-white text-xl font-bold mb-3 tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+                Your trial has ended
+              </h2>
+              <p className="text-slate-500 text-sm leading-relaxed mb-8" style={{ fontFamily: "var(--font-outfit)" }}>
+                Your 14-day free trial has expired. Upgrade to keep access to all your threads and AI analysis.
+              </p>
+              <Link
+                href="/#pricing"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_oklch(64%_0.22_265/0.4)]"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                View pricing plans
+              </Link>
+              <button
+                onClick={handleLogout}
+                className="block mx-auto mt-4 text-slate-600 hover:text-slate-400 text-sm transition-colors"
+                style={{ fontFamily: "var(--font-outfit)" }}
+              >
+                Sign out
+              </button>
+            </div>
+          </div>
+        ) : (
+          children
+        )}
+      </main>
     </div>
   );
 }

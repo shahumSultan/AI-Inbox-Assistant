@@ -12,6 +12,8 @@ interface TokenResponse {
   user_id: string;
   email: string;
   plan: string;
+  is_admin: boolean;
+  trial_ends_at: string | null;
 }
 
 function LoginForm() {
@@ -30,7 +32,7 @@ function LoginForm() {
     setLoading(true);
     try {
       const res = await api.post<TokenResponse>("/api/auth/login", { email, password });
-      saveAuth(res.access_token, { user_id: res.user_id, email: res.email, plan: res.plan });
+      saveAuth(res.access_token, { user_id: res.user_id, email: res.email, plan: res.plan, is_admin: res.is_admin, trial_ends_at: res.trial_ends_at });
       router.push(next);
     } catch (err) {
       setError((err as Error).message);

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.deps import get_current_user, get_db
+from app.deps import get_current_user, get_db, require_active
 from app.models import Action, User
 from app.schemas.action import ActionUpdate
 from app.schemas.thread import ActionOut
@@ -13,7 +13,7 @@ router = APIRouter(prefix="/api/actions", tags=["actions"])
 def update_action(
     action_id: str,
     body: ActionUpdate,
-    user: User = Depends(get_current_user),
+    user: User = Depends(require_active),
     db: Session = Depends(get_db),
 ):
     action = (

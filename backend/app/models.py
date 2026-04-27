@@ -1,5 +1,5 @@
 from sqlalchemy import (
-    Column, String, Text, Integer, Numeric, Date,
+    Boolean, Column, String, Text, Integer, Numeric, Date,
     DateTime, ForeignKey, func,
 )
 from sqlalchemy.dialects.postgresql import UUID
@@ -15,6 +15,8 @@ class User(Base):
     email            = Column(String, unique=True, nullable=False, index=True)
     password_hash    = Column(String, nullable=False)
     plan             = Column(String, nullable=False, default="free")   # free|pro|team
+    is_admin         = Column(Boolean, nullable=False, default=False)
+    trial_ends_at    = Column(DateTime(timezone=True), nullable=True)
     default_tone     = Column(String, nullable=False, default="professional")
     signature        = Column(Text, nullable=True)
     followup_default_days = Column(Integer, nullable=False, default=3)

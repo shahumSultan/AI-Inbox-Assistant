@@ -1,4 +1,6 @@
 from pydantic import BaseModel, EmailStr, field_validator
+from datetime import datetime
+from typing import Optional
 
 
 class RegisterRequest(BaseModel):
@@ -24,12 +26,16 @@ class TokenResponse(BaseModel):
     user_id: str
     email: str
     plan: str
+    is_admin: bool
+    trial_ends_at: Optional[datetime]
 
 
 class MeResponse(BaseModel):
     user_id: str
     email: str
     plan: str
+    is_admin: bool
+    trial_ends_at: Optional[datetime]
     default_tone: str
-    signature: str | None
+    signature: Optional[str]
     followup_default_days: int
