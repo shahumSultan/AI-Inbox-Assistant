@@ -2,9 +2,14 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
 import LogoMark from "./LogoMark";
 
-const NAV_LINKS = ["Features", "Pricing", "About"] as const;
+const NAV_LINKS = [
+  { label: "Features", href: "#features" },
+  { label: "Pricing",  href: "#pricing"  },
+  { label: "How it works", href: "#how-it-works" },
+] as const;
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -19,38 +24,32 @@ export default function Navbar() {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        scrolled
-          ? "backdrop-blur-2xl bg-[#080E1F]/80 border-b border-white/[0.05] shadow-[0_1px_0_rgba(255,255,255,0.04)]"
-          : ""
+        scrolled ? "backdrop-blur-xl bg-black/50 border-b border-white/[0.06]" : ""
       }`}
     >
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
-        <div className="flex items-center justify-between h-[64px]">
+        <div className="flex items-center justify-between h-16">
 
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
-            <div className="transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_10px_oklch(64%_0.22_265/0.5)]">
-              <LogoMark size={32} />
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]">
+              <LogoMark size={30} />
             </div>
-            <span
-              className="text-white font-bold text-[17px] tracking-tight"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
-              Inbox<span className="text-brand">AI</span>
+            <span className="text-white font-bold text-base tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+              Inbox<span style={{ color: "#06b6d4" }}>AI</span>
             </span>
-          </a>
+          </Link>
 
-          {/* Desktop links */}
-          <div className="hidden md:flex items-center gap-7">
-            {NAV_LINKS.map((item) => (
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map(({ label, href }) => (
               <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-slate-400 hover:text-white text-sm transition-colors duration-200 relative group"
+                key={label}
+                href={href}
+                className="text-white/60 hover:text-white text-sm px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200"
                 style={{ fontFamily: "var(--font-outfit)" }}
               >
-                {item}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-brand transition-all duration-300 group-hover:w-full" />
+                {label}
               </a>
             ))}
           </div>
@@ -59,15 +58,15 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200"
+              className="text-white/60 hover:text-white text-sm px-4 py-2 rounded-full hover:bg-white/10 transition-all duration-200"
               style={{ fontFamily: "var(--font-outfit)" }}
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="px-5 py-2 rounded-full text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_oklch(64%_0.22_265/0.45)]"
-              style={{ fontFamily: "var(--font-outfit)" }}
+              className="text-sm font-semibold px-5 py-2 rounded-full text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+              style={{ background: "linear-gradient(135deg, #06b6d4, #f97316)", fontFamily: "var(--font-outfit)" }}
             >
               Get Started
             </Link>
@@ -75,58 +74,47 @@ export default function Navbar() {
 
           {/* Mobile burger */}
           <button
-            className="md:hidden text-slate-400 hover:text-white transition-colors p-1"
+            className="md:hidden text-white/60 hover:text-white p-1 transition-colors"
             onClick={() => setOpen(!open)}
-            aria-label="Toggle menu"
           >
             <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-              {open ? (
-                <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-              ) : (
-                <>
-                  <path d="M4 7h14M4 11h10M4 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                </>
-              )}
+              {open
+                ? <path d="M5 5l12 12M17 5L5 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                : <path d="M4 7h14M4 11h10M4 15h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              }
             </svg>
           </button>
         </div>
 
         {/* Mobile drawer */}
-        <div
-          className={`md:hidden overflow-hidden transition-all duration-300 ${
-            open ? "max-h-64 pb-5" : "max-h-0"
-          }`}
-        >
-          <div className="border-t border-white/[0.06] pt-4 flex flex-col gap-1">
-            {NAV_LINKS.map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="text-slate-400 hover:text-white px-1 py-2 text-sm transition-colors"
-                style={{ fontFamily: "var(--font-outfit)" }}
-                onClick={() => setOpen(false)}
-              >
-                {item}
-              </a>
-            ))}
-            <Link
-              href="/login"
-              className="text-slate-400 hover:text-white px-1 py-2 text-sm transition-colors"
-              style={{ fontFamily: "var(--font-outfit)" }}
-              onClick={() => setOpen(false)}
+        <AnimatePresence>
+          {open && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: "auto" }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden overflow-hidden border-t border-white/[0.06]"
             >
-              Sign in
-            </Link>
-            <Link
-              href="/register"
-              className="mt-1 py-2.5 rounded-full text-sm text-center font-semibold text-white bg-brand"
-              style={{ fontFamily: "var(--font-outfit)" }}
-              onClick={() => setOpen(false)}
-            >
-              Get Started
-            </Link>
-          </div>
-        </div>
+              <div className="py-4 flex flex-col gap-1">
+                {NAV_LINKS.map(({ label, href }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    className="text-white/60 hover:text-white text-sm px-3 py-2.5 rounded-xl hover:bg-white/10 transition-all duration-200"
+                    style={{ fontFamily: "var(--font-outfit)" }}
+                    onClick={() => setOpen(false)}
+                  >
+                    {label}
+                  </a>
+                ))}
+                <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/[0.06]">
+                  <Link href="/login" className="text-center text-white/60 text-sm py-2.5 rounded-full border border-white/10 hover:bg-white/10 transition-all" style={{ fontFamily: "var(--font-outfit)" }} onClick={() => setOpen(false)}>Sign in</Link>
+                  <Link href="/register" className="text-center text-sm font-semibold py-2.5 rounded-full text-white" style={{ background: "linear-gradient(135deg, #06b6d4, #f97316)", fontFamily: "var(--font-outfit)" }} onClick={() => setOpen(false)}>Get Started</Link>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </div>
     </nav>
   );

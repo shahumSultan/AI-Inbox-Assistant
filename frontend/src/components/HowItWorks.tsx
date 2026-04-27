@@ -1,13 +1,17 @@
+"use client";
+
+import { motion } from "framer-motion";
+
 const STEPS = [
   {
     num: "01",
-    accent: "oklch(64% 0.22 265)",
+    accent: "#06b6d4",
     title: "Connect Gmail",
     desc: "Link your Gmail account in under 30 seconds using Google OAuth. Your credentials never touch our servers.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M3 8l8 5 8-5" stroke="oklch(64% 0.22 265)" strokeWidth="1.5" strokeLinecap="round"/>
-        <rect x="3" y="7" width="16" height="10" rx="2.5" stroke="oklch(64% 0.22 265)" strokeWidth="1.5"/>
+        <path d="M3 8l8 5 8-5" stroke="#06b6d4" strokeWidth="1.5" strokeLinecap="round"/>
+        <rect x="3" y="7" width="16" height="10" rx="2.5" stroke="#06b6d4" strokeWidth="1.5"/>
       </svg>
     ),
   },
@@ -39,61 +43,55 @@ const STEPS = [
 
 export default function HowItWorks() {
   return (
-    <section
-      id="how-it-works"
-      className="py-28 relative overflow-hidden"
-      style={{ background: "rgba(255,255,255,0.012)" }}
-    >
-      {/* bg glow */}
+    <section id="how-it-works" className="py-28 relative overflow-hidden">
       <div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, oklch(64% 0.22 265 / 0.1) 0%, transparent 65%)" }}
+        style={{ background: "radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%)" }}
       />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
 
-        {/* Heading */}
-        <div className="text-center mb-20">
-          <span
-            className="text-brand text-[11px] font-medium tracking-[0.16em] uppercase"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-20"
+        >
+          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase" style={{ fontFamily: "var(--font-outfit)" }}>
             Dead-simple setup
           </span>
-          <h2
-            className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-[-0.02em]"
-            style={{ fontFamily: "var(--font-outfit)" }}
-          >
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
             Running in{" "}
-            <span className="text-slate-500">3 minutes</span>
+            <span className="text-white/30 font-light">3 minutes</span>
           </h2>
-        </div>
+        </motion.div>
 
-        {/* Steps */}
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
-
-          {/* connector */}
           <div
             className="hidden md:block absolute top-9 left-[calc(16.66%+32px)] right-[calc(16.66%+32px)] h-px"
-            style={{ background: "linear-gradient(90deg, oklch(64% 0.22 265 / 0.4), oklch(64% 0.22 305 / 0.35), oklch(72% 0.16 200 / 0.3))" }}
+            style={{ background: "linear-gradient(90deg, rgba(6,182,212,0.4), rgba(167,139,250,0.35), rgba(52,211,153,0.3))" }}
           />
 
-          {STEPS.map((step) => (
-            <div key={step.num} className="relative flex flex-col items-center text-center">
-
-              {/* icon circle */}
+          {STEPS.map((step, i) => (
+            <motion.div
+              key={step.num}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.15 }}
+              className="relative flex flex-col items-center text-center"
+            >
               <div className="relative mb-7">
                 <div
                   className="w-[72px] h-[72px] rounded-2xl flex items-center justify-center border border-white/[0.08] transition-all duration-300 hover:border-white/[0.16] hover:scale-105"
-                  style={{ background: "rgba(255,255,255,0.025)" }}
+                  style={{ background: `${step.accent}12` }}
                 >
                   {step.icon}
                 </div>
-                {/* step number badge */}
                 <div
                   className="absolute -top-2 -right-2 w-[22px] h-[22px] rounded-full flex items-center justify-center text-[10px] font-bold"
                   style={{
-                    background: "#080E1F",
+                    background: "rgba(0,0,0,0.8)",
                     border: `1px solid ${step.accent}60`,
                     color: step.accent,
                     fontFamily: "var(--font-outfit)",
@@ -106,10 +104,10 @@ export default function HowItWorks() {
               <h3 className="text-white font-bold text-xl mb-3" style={{ fontFamily: "var(--font-outfit)" }}>
                 {step.title}
               </h3>
-              <p className="text-slate-500 text-sm leading-relaxed max-w-[260px]" style={{ fontFamily: "var(--font-outfit)" }}>
+              <p className="text-white/40 text-sm leading-relaxed max-w-[260px]" style={{ fontFamily: "var(--font-outfit)" }}>
                 {step.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
 
