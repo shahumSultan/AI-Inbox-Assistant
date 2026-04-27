@@ -57,10 +57,10 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
             Dead-simple setup
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
             Running in{" "}
             <span className="text-white/30 font-light">3 minutes</span>
           </h2>
@@ -94,17 +94,16 @@ export default function HowItWorks() {
                     background: "rgba(0,0,0,0.8)",
                     border: `1px solid ${step.accent}60`,
                     color: step.accent,
-                    fontFamily: "var(--font-outfit)",
                   }}
                 >
                   {step.num.slice(1)}
                 </div>
               </div>
 
-              <h3 className="text-white font-bold text-xl mb-3" style={{ fontFamily: "var(--font-outfit)" }}>
+              <h3 className="text-white font-bold text-xl mb-3">
                 {step.title}
               </h3>
-              <p className="text-white/40 text-sm leading-relaxed max-w-[260px]" style={{ fontFamily: "var(--font-outfit)" }}>
+              <p className="text-white/40 text-sm leading-relaxed max-w-[260px]">
                 {step.desc}
               </p>
             </motion.div>

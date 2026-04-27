@@ -52,10 +52,10 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
             Everything you need
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
             Inbox superpowers,
             <br />
             <span className="text-white/30 font-light">without the complexity</span>
@@ -70,8 +70,8 @@ export default function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="group relative p-6 rounded-2xl border border-white/[0.07] hover:border-white/[0.15] transition-all duration-300 cursor-default overflow-hidden backdrop-blur-sm"
-              style={{ background: "rgba(0,0,0,0.4)" }}
+              className="group relative p-6 rounded-2xl border border-white/[0.07] hover:border-white/[0.15] transition-all duration-300 cursor-default overflow-hidden"
+              style={{ background: "rgba(0,0,0,0.55)" }}
             >
               <div
                 className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -83,10 +83,10 @@ export default function Features() {
               >
                 {f.icon}
               </div>
-              <h3 className="text-white font-semibold text-lg mb-2 tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+              <h3 className="text-white font-semibold text-lg mb-2 tracking-tight">
                 {f.title}
               </h3>
-              <p className="text-white/40 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
+              <p className="text-white/40 text-sm leading-relaxed">
                 {f.desc}
               </p>
             </motion.div>

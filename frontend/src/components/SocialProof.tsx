@@ -6,14 +6,14 @@ const COMPANIES = ["Notion", "Linear", "Vercel", "Stripe", "Figma", "Loom", "Arc
 
 export default function SocialProof() {
   return (
-    <section className="py-16 border-y border-white/[0.06]" style={{ background: "rgba(0,0,0,0.4)", backdropFilter: "blur(16px)" }}>
+    <section className="py-16 border-y border-white/[0.06] bg-black/50">
       <div className="max-w-7xl mx-auto px-5 sm:px-8">
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-center text-white/25 text-xs font-medium tracking-widest uppercase mb-8"
-          style={{ fontFamily: "var(--font-outfit)" }}
+         
         >
           Trusted by teams at
         </motion.p>
@@ -26,7 +26,7 @@ export default function SocialProof() {
               viewport={{ once: true }}
               transition={{ delay: i * 0.06 }}
               className="text-white/25 font-semibold text-base tracking-tight hover:text-white/60 transition-colors duration-300 cursor-default"
-              style={{ fontFamily: "var(--font-outfit)" }}
+             
             >
               {name}
             </motion.span>

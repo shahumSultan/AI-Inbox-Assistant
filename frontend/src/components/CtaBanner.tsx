@@ -31,7 +31,7 @@ export default function CtaBanner() {
           className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-7 border border-cyan-500/25 bg-cyan-500/5"
         >
           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-cyan-400 text-xs font-medium" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-cyan-400 text-xs font-medium">
             Free for 14 days — no card needed
           </span>
         </motion.div>
@@ -42,18 +42,11 @@ export default function CtaBanner() {
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
           className="text-4xl sm:text-5xl lg:text-[58px] font-bold text-white mb-6 tracking-tight leading-tight"
-          style={{ fontFamily: "var(--font-outfit)" }}
+         
         >
           Stop managing email.
           <br />
-          <span
-            style={{
-              background: "linear-gradient(135deg, #ffffff 0%, #06b6d4 40%, #f97316 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              backgroundClip: "text",
-            }}
-          >
+          <span className="text-gradient-brand">
             Start owning your time.
           </span>
         </motion.h2>
@@ -64,7 +57,7 @@ export default function CtaBanner() {
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
           className="text-white/50 text-lg leading-relaxed mb-11 max-w-xl mx-auto"
-          style={{ fontFamily: "var(--font-outfit)" }}
+         
         >
           Join thousands of professionals who handed their inbox to AI — and never looked back.
         </motion.p>
@@ -78,8 +71,7 @@ export default function CtaBanner() {
         >
           <Link
             href="/register"
-            className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] hover:scale-105"
-            style={{ background: "linear-gradient(135deg, #06b6d4, #f97316)", fontFamily: "var(--font-outfit)" }}
+            className="bg-gradient-brand inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] hover:scale-105"
           >
             Start Your Free Trial
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -89,7 +81,7 @@ export default function CtaBanner() {
           <a
             href="#pricing"
             className="inline-flex items-center px-8 py-3.5 rounded-full text-sm font-medium text-white/60 border border-white/20 backdrop-blur-sm hover:bg-white/10 hover:text-white transition-all duration-200"
-            style={{ fontFamily: "var(--font-outfit)" }}
+           
           >
             View Pricing
           </a>

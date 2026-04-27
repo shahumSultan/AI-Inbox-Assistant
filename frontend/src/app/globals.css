@@ -3,21 +3,44 @@
 @theme {
   --font-display: var(--font-outfit);
   --font-body:    var(--font-outfit);
-  /* Primary brand: Indigo */
-  --color-brand:   oklch(64% 0.22 265);
-  /* Secondary: Cyan */
-  --color-accent:  oklch(72% 0.16 200);
-  /* Tertiary: Violet */
-  --color-violet:  oklch(64% 0.22 305);
-  /* Status green */
-  --color-emerald: #34d399;
+
+  /* Design tokens — use as text-brand, bg-brand, border-brand etc. */
+  --color-brand:   #06b6d4;   /* cyan-500  — primary  */
+  --color-accent:  #f97316;   /* orange-500 — accent   */
+  --color-violet:  #a78bfa;   /* violet-400            */
+  --color-emerald: #34d399;   /* emerald-400           */
+  --color-pink:    #f472b6;   /* pink-400              */
+  --color-sky:     #60a5fa;   /* sky-400               */
 }
 
-html { scroll-behavior: smooth; }
+:root {
+  /* Raw values for use inside CSS expressions (gradients, rgba, etc.) */
+  --brand-rgb:  6, 182, 212;
+  --accent-rgb: 249, 115, 22;
+}
+
+/* ── Base ── */
+html {
+  /* scroll-padding-top offsets anchor targets so they clear the fixed navbar */
+  scroll-padding-top: 64px;
+}
 
 body {
-  background: #080E1F;   /* Midnight navy */
-  color: #EEF1F8;        /* Off-white */
+  background: #000;
+  color: #fff;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
+
+/* ── Gradient utilities ── */
+.bg-gradient-brand {
+  background: linear-gradient(135deg, #06b6d4, #f97316);
+}
+
+.text-gradient-brand {
+  background: linear-gradient(135deg, #fff 0%, #06b6d4 40%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* ── Keyframes ── */
@@ -41,7 +64,7 @@ body {
   50%       { background-position: 100% 50%; }
 }
 
-/* ── Utilities ── */
+/* ── Animation utilities ── */
 .animate-float        { animation: float 5s ease-in-out infinite; }
 .animate-pulse-dot    { animation: pulse-dot 2s ease-in-out infinite; }
 .animate-gradient     { background-size: 300% 300%; animation: gradient-drift 6s ease infinite; }

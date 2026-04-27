@@ -38,11 +38,11 @@ export default function Footer() {
               <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">
                 <LogoMark size={30} />
               </div>
-              <span className="text-white font-bold text-base tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
-                Inbox<span style={{ color: "#06b6d4" }}>AI</span>
+              <span className="text-white font-bold text-base tracking-tight">
+                Inbox<span className="text-brand">AI</span>
               </span>
             </Link>
-            <p className="text-white/30 text-sm leading-relaxed max-w-[175px]" style={{ fontFamily: "var(--font-outfit)" }}>
+            <p className="text-white/30 text-sm leading-relaxed max-w-[175px]">
               AI-powered email management for modern teams.
             </p>
 
@@ -69,7 +69,7 @@ export default function Footer() {
             <div key={cat}>
               <h4
                 className="text-white/30 text-[11px] font-semibold tracking-widest uppercase mb-4"
-                style={{ fontFamily: "var(--font-outfit)" }}
+               
               >
                 {cat}
               </h4>
@@ -79,7 +79,7 @@ export default function Footer() {
                     <a
                       href={href}
                       className="text-white/25 hover:text-white/60 text-sm transition-colors duration-200"
-                      style={{ fontFamily: "var(--font-outfit)" }}
+                     
                     >
                       {label}
                     </a>
@@ -91,12 +91,12 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/[0.05] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/20 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
+          <p className="text-white/20 text-sm">
             © 2026 AI Inbox Assistant, Inc. All rights reserved.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span className="text-white/25 text-xs" style={{ fontFamily: "var(--font-outfit)" }}>
+            <span className="text-white/25 text-xs">
               All systems operational
             </span>
           </div>

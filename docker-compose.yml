@@ -41,7 +41,7 @@ services:
       - ./frontend:/app
       - /app/node_modules
       - /app/.next
-    command: npm run dev
+    command: npx next dev -H 0.0.0.0
     depends_on:
       - backend
 

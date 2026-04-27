@@ -18,14 +18,14 @@ export default function Home() {
         <MeshGradient
           className="w-full h-full"
           colors={["#000000", "#06b6d4", "#0891b2", "#164e63", "#f97316"]}
-          speed={0.2}
+          speed={0.04}
         />
         {/* Dark overlay so content is readable */}
         <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      {/* Page content */}
-      <div className="relative z-10">
+      {/* Page content — promoted to GPU compositing layer */}
+      <div className="relative z-10" style={{ transform: "translateZ(0)" }}>
         <Navbar />
         <Hero />
         <SocialProof />

@@ -82,15 +82,15 @@ export default function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
             Simple pricing
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight" style={{ fontFamily: "var(--font-outfit)" }}>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
             Pay for what you use.
             <br />
             <span className="text-white/30 font-light">Nothing more.</span>
           </h2>
-          <p className="text-white/40 mt-4 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
+          <p className="text-white/40 mt-4 text-sm">
             All plans include a 14-day free trial. No credit card required.
           </p>
         </motion.div>
@@ -126,41 +126,36 @@ function PricingCard({ plan }: { plan: Plan }) {
       }`}
       style={{
         background: plan.highlighted
-          ? "linear-gradient(160deg, rgba(6,182,212,0.1) 0%, rgba(0,0,0,0.6) 50%)"
-          : "rgba(0,0,0,0.4)",
-        backdropFilter: "blur(8px)",
+          ? "linear-gradient(160deg, rgba(6,182,212,0.12) 0%, rgba(0,0,0,0.65) 50%)"
+          : "rgba(0,0,0,0.55)",
       }}
     >
       {plan.badge && (
         <div
-          className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap"
-          style={{
-            fontFamily: "var(--font-outfit)",
-            background: plan.highlighted
-              ? "linear-gradient(135deg, #06b6d4, #f97316)"
-              : "rgba(255,255,255,0.08)",
-            color: plan.highlighted ? "#fff" : "rgba(255,255,255,0.4)",
-            boxShadow: plan.highlighted ? "0 0 20px rgba(6,182,212,0.4)" : "none",
-          }}
+          className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap ${
+            plan.highlighted
+              ? "bg-gradient-brand text-white shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+              : "bg-white/[0.08] text-white/40"
+          }`}
         >
           {plan.badge}
         </div>
       )}
 
       <div className="mb-6">
-        <h3 className="text-white font-bold text-xl mb-1.5" style={{ fontFamily: "var(--font-outfit)" }}>
+        <h3 className="text-white font-bold text-xl mb-1.5">
           {plan.name}
         </h3>
-        <p className="text-white/40 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
+        <p className="text-white/40 text-sm leading-relaxed">
           {plan.desc}
         </p>
       </div>
 
       <div className="flex items-end gap-1.5 mb-6">
-        <span className="text-5xl font-bold text-white leading-none" style={{ fontFamily: "var(--font-outfit)" }}>
+        <span className="text-5xl font-bold text-white leading-none">
           ${plan.price}
         </span>
-        <span className="text-white/30 text-sm mb-1" style={{ fontFamily: "var(--font-outfit)" }}>
+        <span className="text-white/30 text-sm mb-1">
           / month
         </span>
       </div>
@@ -182,7 +177,7 @@ function PricingCard({ plan }: { plan: Plan }) {
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="text-white/50 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
+            <span className="text-white/50 text-sm leading-relaxed">
               {feat}
             </span>
           </li>
@@ -193,7 +188,7 @@ function PricingCard({ plan }: { plan: Plan }) {
         <button
           disabled
           className="w-full py-3.5 rounded-xl text-sm font-semibold cursor-not-allowed border border-white/[0.05] text-white/20"
-          style={{ background: "rgba(255,255,255,0.03)", fontFamily: "var(--font-outfit)" }}
+          style={{ background: "rgba(255,255,255,0.03)" }}
         >
           {plan.cta}
         </button>
@@ -202,15 +197,9 @@ function PricingCard({ plan }: { plan: Plan }) {
           href={plan.ctaHref}
           className={`w-full py-3.5 rounded-xl text-sm font-semibold text-center transition-all duration-200 block ${
             plan.highlighted
-              ? "text-white hover:shadow-[0_0_28px_rgba(6,182,212,0.45)] hover:brightness-110"
+              ? "bg-gradient-brand text-white hover:shadow-[0_0_28px_rgba(6,182,212,0.45)] hover:brightness-110"
               : "text-white/70 hover:text-white border border-white/[0.07] hover:border-white/[0.15] hover:bg-white/[0.05]"
           }`}
-          style={{
-            background: plan.highlighted
-              ? "linear-gradient(135deg, #06b6d4, #f97316)"
-              : "transparent",
-            fontFamily: "var(--font-outfit)",
-          }}
         >
           {plan.cta}
         </Link>
