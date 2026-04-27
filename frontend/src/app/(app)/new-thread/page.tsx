@@ -26,29 +26,25 @@ interface ThreadOut {
   actions: ActionOut[];
 }
 
-const PRIORITY_LABEL: Record<number, { label: string; color: string }> = {
-  1: { label: "Low", color: "oklch(72% 0.16 200)" },
-  2: { label: "Normal", color: "oklch(72% 0.16 200)" },
-  3: { label: "Medium", color: "oklch(80% 0.18 85)" },
-  4: { label: "High", color: "oklch(72% 0.22 30)" },
-  5: { label: "Critical", color: "oklch(65% 0.25 15)" },
+const PRIORITY: Record<number, { label: string; color: string }> = {
+  1: { label: "Low",      color: "#06b6d4" },
+  2: { label: "Normal",   color: "#06b6d4" },
+  3: { label: "Medium",   color: "#f59e0b" },
+  4: { label: "High",     color: "#f97316" },
+  5: { label: "Critical", color: "#ef4444" },
 };
 
 const ACTION_ICON: Record<string, string> = {
-  reply: "↩",
-  follow_up: "⏰",
-  schedule: "📅",
-  task: "✓",
-  ignore: "✕",
+  reply: "↩", follow_up: "⏰", schedule: "📅", task: "✓", ignore: "✕",
 };
 
 export default function NewThreadPage() {
   const router = useRouter();
-  const [text, setText] = useState("");
+  const [text,    setText]    = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<ThreadOut | null>(null);
-  const [copied, setCopied] = useState<string | null>(null);
+  const [error,   setError]   = useState<string | null>(null);
+  const [result,  setResult]  = useState<ThreadOut | null>(null);
+  const [copied,  setCopied]  = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -71,32 +67,21 @@ export default function NewThreadPage() {
     setTimeout(() => setCopied(null), 2000);
   }
 
-  const p = result ? PRIORITY_LABEL[result.priority_score] ?? PRIORITY_LABEL[3] : null;
+  const p = result ? (PRIORITY[result.priority_score] ?? PRIORITY[3]) : null;
 
   return (
     <div className="flex flex-col h-full px-8 py-10 max-w-3xl mx-auto w-full">
 
-      {/* Header */}
       <div className="mb-8">
-        <h1 className="text-white text-3xl font-bold tracking-tight mb-1" style={{ fontFamily: "var(--font-outfit)" }}>
-          Analyse Thread
-        </h1>
-        <p className="text-slate-500 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
-          Paste an email thread and get instant AI-powered next steps
-        </p>
+        <h1 className="text-white text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
+        <p className="text-white/40 text-sm">Paste an email thread and get instant AI-powered next steps</p>
       </div>
 
-      {/* Input */}
       {!result && (
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div
-            className="rounded-2xl border overflow-hidden"
-            style={{ background: "rgba(255,255,255,0.025)", borderColor: "rgba(255,255,255,0.08)" }}
-          >
-            <div className="px-4 pt-4 pb-1 border-b" style={{ borderColor: "rgba(255,255,255,0.06)" }}>
-              <p className="text-slate-500 text-xs font-medium uppercase tracking-wider" style={{ fontFamily: "var(--font-outfit)" }}>
-                Email Thread
-              </p>
+          <div className="rounded-2xl border border-white/[0.08] overflow-hidden" style={{ background: "rgba(255,255,255,0.025)" }}>
+            <div className="px-4 pt-4 pb-1 border-b border-white/[0.06]">
+              <p className="text-white/30 text-xs font-medium uppercase tracking-wider">Email Thread</p>
             </div>
             <textarea
               value={text}
@@ -104,32 +89,28 @@ export default function NewThreadPage() {
               required
               minLength={20}
               rows={14}
-              className="w-full px-4 py-4 text-sm text-slate-300 placeholder-slate-600 bg-transparent outline-none resize-none"
-              style={{ fontFamily: "var(--font-outfit)" }}
+              className="w-full px-4 py-4 text-sm text-white/70 placeholder-white/20 bg-transparent outline-none resize-none"
               placeholder={"From: sender@company.com\nTo: you@yourcompany.com\nSubject: Q2 Budget Review\n\nPaste the full email thread here — include all replies for best results…"}
             />
           </div>
 
           {error && (
-            <p className="text-red-400 text-xs rounded-lg px-3 py-2" style={{ background: "rgba(239,68,68,0.1)", fontFamily: "var(--font-outfit)" }}>
-              {error}
-            </p>
+            <p className="text-red-400 text-xs rounded-lg px-3 py-2 bg-red-500/[0.1] border border-red-500/20">{error}</p>
           )}
 
           <div className="flex items-center justify-between">
-            <span className="text-slate-600 text-xs" style={{ fontFamily: "var(--font-outfit)" }}>
+            <span className="text-white/25 text-xs">
               {text.length > 0 ? `${text.length.toLocaleString()} characters` : "Supports any email format"}
             </span>
             <button
               type="submit"
               disabled={loading || text.trim().length < 20}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed hover:shadow-[0_0_24px_oklch(64%_0.22_265/0.4)]"
-              style={{ fontFamily: "var(--font-outfit)" }}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
             >
               {loading ? (
                 <>
                   <svg className="animate-spin" width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="8 8" />
+                    <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" strokeDasharray="8 8"/>
                   </svg>
                   Analysing…
                 </>
@@ -146,46 +127,29 @@ export default function NewThreadPage() {
         </form>
       )}
 
-      {/* Results */}
       {result && p && (
         <div className="flex flex-col gap-5">
-          {/* Thread summary card */}
-          <div
-            className="rounded-2xl border p-6"
-            style={{ background: "rgba(255,255,255,0.025)", borderColor: "rgba(255,255,255,0.08)" }}
-          >
+          {/* Summary card */}
+          <div className="rounded-2xl border border-white/[0.08] p-6" style={{ background: "rgba(255,255,255,0.025)" }}>
             <div className="flex items-start justify-between gap-4 mb-4">
-              <h2 className="text-white text-lg font-bold leading-snug" style={{ fontFamily: "var(--font-outfit)" }}>
-                {result.title}
-              </h2>
+              <h2 className="text-white text-lg font-bold leading-snug">{result.title}</h2>
               <span
                 className="flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full"
-                style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30`, fontFamily: "var(--font-outfit)" }}
+                style={{ background: `${p.color}18`, color: p.color, border: `1px solid ${p.color}30` }}
               >
                 P{result.priority_score} {p.label}
               </span>
             </div>
-
-            <p className="text-slate-400 text-sm leading-relaxed mb-4" style={{ fontFamily: "var(--font-outfit)" }}>
-              {result.summary}
-            </p>
-
-            <div
-              className="rounded-xl px-4 py-3 text-sm"
-              style={{ background: "oklch(64% 0.22 265 / 0.08)", border: "1px solid oklch(64% 0.22 265 / 0.15)" }}
-            >
-              <span className="text-slate-500 text-xs uppercase tracking-wider mr-2" style={{ fontFamily: "var(--font-outfit)" }}>Intent</span>
-              <span className="text-slate-300" style={{ fontFamily: "var(--font-outfit)" }}>{result.primary_intent}</span>
+            <p className="text-white/50 text-sm leading-relaxed mb-4">{result.summary}</p>
+            <div className="rounded-xl px-4 py-3 bg-brand/[0.07] border border-brand/15">
+              <span className="text-white/30 text-xs uppercase tracking-wider mr-2">Intent</span>
+              <span className="text-white/70 text-sm">{result.primary_intent}</span>
             </div>
-
             <div className="flex items-center justify-between mt-4">
-              <span className="text-slate-600 text-xs" style={{ fontFamily: "var(--font-outfit)" }}>
-                {Math.round(result.confidence_score * 100)}% confidence
-              </span>
+              <span className="text-white/25 text-xs">{Math.round(result.confidence_score * 100)}% confidence</span>
               <button
                 onClick={() => { setResult(null); setText(""); }}
-                className="text-slate-600 hover:text-slate-400 text-xs transition-colors"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="text-white/30 hover:text-white/60 text-xs transition-colors"
               >
                 ← Analyse another thread
               </button>
@@ -194,61 +158,46 @@ export default function NewThreadPage() {
 
           {/* Actions */}
           <div>
-            <h3 className="text-slate-400 text-xs font-medium uppercase tracking-wider mb-3" style={{ fontFamily: "var(--font-outfit)" }}>
+            <h3 className="text-white/30 text-xs font-medium uppercase tracking-wider mb-3">
               Recommended Actions ({result.actions.length})
             </h3>
             <div className="flex flex-col gap-3">
               {result.actions.map((action) => {
-                const ap = PRIORITY_LABEL[action.priority] ?? PRIORITY_LABEL[3];
+                const ap = PRIORITY[action.priority] ?? PRIORITY[3];
                 return (
-                  <div
-                    key={action.id}
-                    className="rounded-xl border p-4"
-                    style={{ background: "rgba(255,255,255,0.02)", borderColor: "rgba(255,255,255,0.07)" }}
-                  >
+                  <div key={action.id} className="rounded-xl border border-white/[0.07] p-4" style={{ background: "rgba(255,255,255,0.02)" }}>
                     <div className="flex items-start gap-3">
-                      <span
-                        className="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5"
-                        style={{ background: "oklch(64% 0.22 265 / 0.12)", color: "oklch(64% 0.22 265)" }}
-                      >
+                      <span className="w-7 h-7 rounded-lg flex items-center justify-center text-sm flex-shrink-0 mt-0.5 bg-brand/10 text-brand">
                         {ACTION_ICON[action.type] ?? "•"}
                       </span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-1">
-                          <span className="text-white text-sm font-semibold" style={{ fontFamily: "var(--font-outfit)" }}>
-                            {action.title}
-                          </span>
+                          <span className="text-white text-sm font-semibold">{action.title}</span>
                           <span
                             className="text-[10px] font-medium px-1.5 py-0.5 rounded-full capitalize"
-                            style={{ background: `${ap.color}15`, color: ap.color, fontFamily: "var(--font-outfit)" }}
+                            style={{ background: `${ap.color}15`, color: ap.color }}
                           >
                             {action.type.replace("_", " ")}
                           </span>
                         </div>
-                        <p className="text-slate-400 text-sm leading-relaxed" style={{ fontFamily: "var(--font-outfit)" }}>
-                          {action.suggested_next_step}
-                        </p>
+                        <p className="text-white/50 text-sm leading-relaxed">{action.suggested_next_step}</p>
                         {action.due_date && (
-                          <p className="text-slate-600 text-xs mt-1" style={{ fontFamily: "var(--font-outfit)" }}>
+                          <p className="text-white/20 text-xs mt-1">
                             Due: {new Date(action.due_date).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}
                           </p>
                         )}
                         {action.suggested_text && (
                           <div className="mt-3">
-                            <div
-                              className="rounded-xl p-3 text-sm text-slate-300 mb-2 leading-relaxed whitespace-pre-wrap"
-                              style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)", fontFamily: "var(--font-outfit)" }}
-                            >
+                            <div className="rounded-xl p-3 text-sm text-white/60 mb-2 leading-relaxed whitespace-pre-wrap border border-white/[0.07]" style={{ background: "rgba(255,255,255,0.04)" }}>
                               {action.suggested_text}
                             </div>
                             <button
                               onClick={() => copyText(action.id, action.suggested_text!)}
-                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200"
+                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border"
                               style={{
-                                background: copied === action.id ? "oklch(72% 0.16 200 / 0.15)" : "rgba(255,255,255,0.06)",
-                                color: copied === action.id ? "oklch(72% 0.16 200)" : "#94a3b8",
-                                border: `1px solid ${copied === action.id ? "oklch(72% 0.16 200 / 0.3)" : "rgba(255,255,255,0.08)"}`,
-                                fontFamily: "var(--font-outfit)",
+                                background:   copied === action.id ? "rgba(6,182,212,0.12)" : "rgba(255,255,255,0.06)",
+                                color:        copied === action.id ? "#06b6d4" : "rgba(255,255,255,0.4)",
+                                borderColor:  copied === action.id ? "rgba(6,182,212,0.3)" : "rgba(255,255,255,0.08)",
                               }}
                             >
                               {copied === action.id ? "✓ Copied" : "Copy reply"}
@@ -263,19 +212,13 @@ export default function NewThreadPage() {
             </div>
           </div>
 
-          {/* Navigate to thread */}
           <div className="flex items-center justify-between pt-2">
-            <button
-              onClick={() => { setResult(null); setText(""); }}
-              className="text-slate-600 hover:text-slate-400 text-sm transition-colors"
-              style={{ fontFamily: "var(--font-outfit)" }}
-            >
+            <button onClick={() => { setResult(null); setText(""); }} className="text-white/30 hover:text-white/60 text-sm transition-colors">
               ← Analyse another
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200"
-              style={{ fontFamily: "var(--font-outfit)" }}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
             >
               View Dashboard →
             </button>

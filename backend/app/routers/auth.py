@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session
 
 from ..deps import get_db, get_current_user
 from ..models import User
-from ..schemas.auth import RegisterRequest, LoginRequest, TokenResponse, MeResponse
+from ..schemas.auth import RegisterRequest, LoginRequest, TokenResponse, MeResponse, UpdateMeRequest
 from ..core.security import hash_password, verify_password, create_access_token
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
@@ -72,3 +72,41 @@ def me(current_user: User = Depends(get_current_user)):
         signature=current_user.signature,
         followup_default_days=current_user.followup_default_days,
     )
+
+
+@router.patch("/me", response_model=MeResponse)
+def update_me(body: UpdateMeRequest, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if body.new_password is not None:
+        if not body.current_password:
+            raise HTTPException(status_code=400, detail="current_password is required to set a new password")
+        if not verify_password(body.current_password, current_user.password_hash):
+            raise HTTPException(status_code=400, detail="Current password is incorrect")
+        if len(body.new_password) < 8:
+            raise HTTPException(status_code=400, detail="New password must be at least 8 characters")
+        current_user.password_hash = hash_password(body.new_password)
+
+    if body.default_tone is not None:
+        current_user.default_tone = body.default_tone
+    if body.signature is not None:
+        current_user.signature = body.signature
+    if body.followup_default_days is not None:
+        current_user.followup_default_days = max(1, min(30, body.followup_default_days))
+
+    db.commit()
+    db.refresh(current_user)
+    return MeResponse(
+        user_id=str(current_user.id),
+        email=current_user.email,
+        plan=current_user.plan,
+        is_admin=current_user.is_admin,
+        trial_ends_at=current_user.trial_ends_at,
+        default_tone=current_user.default_tone,
+        signature=current_user.signature,
+        followup_default_days=current_user.followup_default_days,
+    )
+
+
+@router.delete("/me", status_code=204)
+def delete_me(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    db.delete(current_user)
+    db.commit()

@@ -45,9 +45,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router   = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
 
-  useEffect(() => {
-    setUser(getAuthUser());
-  }, []);
+  useEffect(() => { setUser(getAuthUser()); }, []);
 
   function handleLogout() {
     clearAuth();
@@ -58,53 +56,53 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const isExpired  = daysLeft !== null && daysLeft === 0;
   const showBanner = daysLeft !== null && daysLeft > 0 && daysLeft <= 7;
 
-  // Plan label shown in sidebar footer
   const planLabel = user?.is_admin
-    ? "admin"
+    ? "Admin"
     : user?.plan !== "free"
     ? user?.plan
     : daysLeft !== null
     ? `${daysLeft}d trial left`
-    : "free";
+    : "Free";
 
   const planColor = user?.is_admin
-    ? "oklch(72% 0.16 200)"
+    ? "#06b6d4"
     : isExpired
-    ? "oklch(65% 0.25 15)"
+    ? "#ef4444"
     : showBanner
-    ? "oklch(80% 0.18 85)"
-    : "#475569";
+    ? "#f59e0b"
+    : "rgba(255,255,255,0.3)";
 
   return (
-    <div className="flex h-screen" style={{ background: "#080E1F" }}>
-
+    <div
+      className="flex h-screen bg-black"
+      style={{
+        backgroundImage: "radial-gradient(ellipse 70% 50% at 10% 0%, rgba(6,182,212,0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 90% 100%, rgba(249,115,22,0.05) 0%, transparent 50%)",
+      }}
+    >
       {/* ── Sidebar ── */}
-      <aside
-        className="w-[220px] flex-shrink-0 flex flex-col border-r border-white/[0.06]"
-        style={{ background: "rgba(255,255,255,0.015)" }}
-      >
+      <aside className="w-[220px] flex-shrink-0 flex flex-col border-r border-white/[0.06] bg-black/60">
+
         {/* Logo */}
         <div className="flex items-center gap-2.5 px-5 h-16 border-b border-white/[0.06]">
           <LogoMark size={28} />
-          <span className="text-white font-bold text-base" style={{ fontFamily: "var(--font-outfit)" }}>
+          <span className="text-white font-bold text-base tracking-tight">
             Inbox<span className="text-brand">AI</span>
           </span>
         </div>
 
-        {/* Nav links */}
+        {/* Nav */}
         <nav className="flex flex-col gap-1 p-3 flex-1">
           {NAV.map(({ href, label, icon }) => {
-            const active = pathname === href || pathname.startsWith(href + "/");
+            const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
                 href={href}
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                   active
-                    ? "text-white bg-brand/15 border border-brand/20"
-                    : "text-slate-500 hover:text-slate-300 hover:bg-white/[0.04]"
+                    ? "text-white bg-brand/10 border border-brand/20"
+                    : "text-white/40 hover:text-white/80 hover:bg-white/[0.04]"
                 }`}
-                style={{ fontFamily: "var(--font-outfit)" }}
               >
                 <span className={active ? "text-brand" : ""}>{icon}</span>
                 {label}
@@ -113,13 +111,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        {/* Trial warning in sidebar */}
+        {/* Trial warning */}
         {showBanner && (
-          <div className="mx-3 mb-2 rounded-xl px-3 py-2.5" style={{ background: "oklch(80% 0.18 85 / 0.08)", border: "1px solid oklch(80% 0.18 85 / 0.2)" }}>
-            <p className="text-xs font-semibold mb-0.5" style={{ color: "oklch(80% 0.18 85)", fontFamily: "var(--font-outfit)" }}>
+          <div className="mx-3 mb-2 rounded-xl px-3 py-2.5 border border-amber-500/20 bg-amber-500/[0.06]">
+            <p className="text-xs font-semibold mb-0.5 text-amber-400">
               {daysLeft} day{daysLeft !== 1 ? "s" : ""} left in trial
             </p>
-            <Link href="/#pricing" className="text-[11px] underline underline-offset-2" style={{ color: "oklch(80% 0.18 85 / 0.7)", fontFamily: "var(--font-outfit)" }}>
+            <Link href="/#pricing" className="text-[11px] text-amber-400/60 underline underline-offset-2 hover:text-amber-400 transition-colors">
               View plans →
             </Link>
           </div>
@@ -127,23 +125,19 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
         {/* User footer */}
         <div className="p-3 border-t border-white/[0.06]">
-          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl" style={{ background: "rgba(255,255,255,0.03)" }}>
-            <div className="w-7 h-7 rounded-full bg-brand/20 border border-brand/30 flex items-center justify-center flex-shrink-0">
-              <span className="text-brand text-xs font-bold" style={{ fontFamily: "var(--font-outfit)" }}>
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-white/[0.03]">
+            <div className="w-7 h-7 rounded-full bg-brand/15 border border-brand/25 flex items-center justify-center flex-shrink-0">
+              <span className="text-brand text-xs font-bold">
                 {user?.email?.[0]?.toUpperCase() ?? "?"}
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white text-xs font-medium truncate" style={{ fontFamily: "var(--font-outfit)" }}>
-                {user?.email ?? "…"}
-              </p>
-              <p className="text-[10px] capitalize" style={{ color: planColor, fontFamily: "var(--font-outfit)" }}>
-                {planLabel}
-              </p>
+              <p className="text-white text-xs font-medium truncate">{user?.email ?? "…"}</p>
+              <p className="text-[10px] capitalize font-medium" style={{ color: planColor }}>{planLabel}</p>
             </div>
             <button
               onClick={handleLogout}
-              className="text-slate-700 hover:text-slate-400 transition-colors flex-shrink-0"
+              className="text-white/20 hover:text-white/60 transition-colors flex-shrink-0"
               title="Sign out"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -155,44 +149,35 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       </aside>
 
       {/* ── Main ── */}
-      <main className="flex-1 overflow-y-auto relative">
+      <main className="flex-1 overflow-y-auto">
         {isExpired ? (
           <div className="flex items-center justify-center h-full px-8">
             <div className="text-center max-w-sm">
-              <div
-                className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6"
-                style={{ background: "oklch(65% 0.25 15 / 0.1)", border: "1px solid oklch(65% 0.25 15 / 0.25)" }}
-              >
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-red-500/[0.08] border border-red-500/20">
                 <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <circle cx="14" cy="14" r="10" stroke="oklch(65% 0.25 15)" strokeWidth="1.8"/>
-                  <path d="M14 9v5M14 18v1" stroke="oklch(65% 0.25 15)" strokeWidth="1.8" strokeLinecap="round"/>
+                  <circle cx="14" cy="14" r="10" stroke="#ef4444" strokeWidth="1.8"/>
+                  <path d="M14 9v5M14 18v1" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round"/>
                 </svg>
               </div>
-              <h2 className="text-white text-xl font-bold mb-3 tracking-tight" style={{ fontFamily: "var(--font-outfit)" }}>
-                Your trial has ended
-              </h2>
-              <p className="text-slate-500 text-sm leading-relaxed mb-8" style={{ fontFamily: "var(--font-outfit)" }}>
+              <h2 className="text-white text-xl font-bold mb-3 tracking-tight">Your trial has ended</h2>
+              <p className="text-white/40 text-sm leading-relaxed mb-8">
                 Your 14-day free trial has expired. Upgrade to keep access to all your threads and AI analysis.
               </p>
               <Link
                 href="/#pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-brand hover:brightness-110 transition-all duration-200 hover:shadow-[0_0_24px_oklch(64%_0.22_265/0.4)]"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] transition-all duration-200"
               >
                 View pricing plans
               </Link>
               <button
                 onClick={handleLogout}
-                className="block mx-auto mt-4 text-slate-600 hover:text-slate-400 text-sm transition-colors"
-                style={{ fontFamily: "var(--font-outfit)" }}
+                className="block mx-auto mt-4 text-white/20 hover:text-white/50 text-sm transition-colors"
               >
                 Sign out
               </button>
             </div>
           </div>
-        ) : (
-          children
-        )}
+        ) : children}
       </main>
     </div>
   );

@@ -39,3 +39,11 @@ class MeResponse(BaseModel):
     default_tone: str
     signature: Optional[str]
     followup_default_days: int
+
+
+class UpdateMeRequest(BaseModel):
+    current_password: Optional[str] = None
+    new_password: Optional[str] = None
+    default_tone: Optional[str] = None
+    signature: Optional[str] = None
+    followup_default_days: Optional[int] = None
