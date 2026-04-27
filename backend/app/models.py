@@ -20,6 +20,7 @@ class User(Base):
     default_tone     = Column(String, nullable=False, default="professional")
     signature        = Column(Text, nullable=True)
     followup_default_days = Column(Integer, nullable=False, default=3)
+    openai_api_key   = Column(Text, nullable=True)  # encrypted
     created_at       = Column(DateTime(timezone=True), server_default=func.now())
     updated_at       = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 

@@ -28,6 +28,9 @@ def _run_migrations():
             "UPDATE users SET trial_ends_at = created_at + INTERVAL '14 days' "
             "WHERE trial_ends_at IS NULL AND is_admin = FALSE"
         ))
+        conn.execute(text(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS openai_api_key TEXT"
+        ))
         conn.commit()
 
 

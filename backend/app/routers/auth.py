@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from ..deps import get_db, get_current_user
 from ..models import User
 from ..schemas.auth import RegisterRequest, LoginRequest, TokenResponse, MeResponse, UpdateMeRequest
-from ..core.security import hash_password, verify_password, create_access_token
+from ..core.security import hash_password, verify_password, create_access_token, encrypt_field, decrypt_field
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
@@ -18,6 +18,16 @@ TRIAL_DAYS = 14
 def _is_admin_email(email: str) -> bool:
     admin = os.getenv("ADMIN_EMAIL", "")
     return email.lower() in [e.strip().lower() for e in admin.split(",") if e.strip()]
+
+
+def _key_hint(user: User) -> str | None:
+    if not user.openai_api_key:
+        return None
+    try:
+        plain = decrypt_field(user.openai_api_key)
+        return f"...{plain[-4:]}" if len(plain) >= 4 else "...****"
+    except Exception:
+        return None
 
 
 def _token_response(user: User) -> TokenResponse:
@@ -71,6 +81,7 @@ def me(current_user: User = Depends(get_current_user)):
         default_tone=current_user.default_tone,
         signature=current_user.signature,
         followup_default_days=current_user.followup_default_days,
+        openai_api_key_hint=_key_hint(current_user),
     )
 
 
@@ -91,6 +102,11 @@ def update_me(body: UpdateMeRequest, db: Session = Depends(get_db), current_user
         current_user.signature = body.signature
     if body.followup_default_days is not None:
         current_user.followup_default_days = max(1, min(30, body.followup_default_days))
+    if body.openai_api_key is not None:
+        if body.openai_api_key == "":
+            current_user.openai_api_key = None
+        else:
+            current_user.openai_api_key = encrypt_field(body.openai_api_key)
 
     db.commit()
     db.refresh(current_user)
@@ -103,6 +119,7 @@ def update_me(body: UpdateMeRequest, db: Session = Depends(get_db), current_user
         default_tone=current_user.default_tone,
         signature=current_user.signature,
         followup_default_days=current_user.followup_default_days,
+        openai_api_key_hint=_key_hint(current_user),
     )
 
 

@@ -39,6 +39,7 @@ class MeResponse(BaseModel):
     default_tone: str
     signature: Optional[str]
     followup_default_days: int
+    openai_api_key_hint: Optional[str] = None  # last 4 chars, e.g. "...ab1c"
 
 
 class UpdateMeRequest(BaseModel):
@@ -47,3 +48,4 @@ class UpdateMeRequest(BaseModel):
     default_tone: Optional[str] = None
     signature: Optional[str] = None
     followup_default_days: Optional[int] = None
+    openai_api_key: Optional[str] = None  # empty string = clear, non-empty = encrypt and save

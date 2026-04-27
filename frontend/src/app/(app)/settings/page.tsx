@@ -14,6 +14,7 @@ interface MeResponse {
   default_tone: string;
   signature: string | null;
   followup_default_days: number;
+  openai_api_key_hint: string | null;
 }
 
 const TONES = ["professional", "friendly", "concise", "formal"] as const;
@@ -53,6 +54,12 @@ export default function SettingsPage() {
   const [prefSaving,     setPrefSaving]     = useState(false);
   const [prefSaved,      setPrefSaved]      = useState(false);
 
+  // AI key form
+  const [aiKey,      setAiKey]      = useState("");
+  const [aiSaving,   setAiSaving]   = useState(false);
+  const [aiSaved,    setAiSaved]    = useState(false);
+  const [aiError,    setAiError]    = useState<string | null>(null);
+
   // Password form
   const [currentPw,  setCurrentPw]  = useState("");
   const [newPw,      setNewPw]      = useState("");
@@ -84,6 +91,23 @@ export default function SettingsPage() {
       setTimeout(() => setPrefSaved(false), 2500);
     } finally {
       setPrefSaving(false);
+    }
+  }
+
+  async function saveAiKey(e: FormEvent) {
+    e.preventDefault();
+    setAiError(null);
+    setAiSaving(true);
+    try {
+      await api.patch("/api/auth/me", { openai_api_key: aiKey });
+      setAiSaved(true);
+      setAiKey("");
+      setMe((prev) => prev ? { ...prev, openai_api_key_hint: aiKey === "" ? null : `...${aiKey.slice(-4)}` } : prev);
+      setTimeout(() => setAiSaved(false), 2500);
+    } catch (err) {
+      setAiError((err as Error).message);
+    } finally {
+      setAiSaving(false);
     }
   }
 
@@ -233,6 +257,59 @@ export default function SettingsPage() {
                 {prefSaved ? (
                   <><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> Saved</>
                 ) : prefSaving ? "Saving…" : "Save preferences"}
+              </button>
+            </div>
+          </form>
+        </Section>
+
+        {/* ── AI ── */}
+        <Section title="AI Provider">
+          <form onSubmit={saveAiKey} className="flex flex-col gap-5">
+            <Field
+              label="OpenAI API key"
+              hint={me?.openai_api_key_hint
+                ? `Current key: ${me.openai_api_key_hint} — paste a new key to replace, or clear to remove`
+                : "Required to analyse threads. Get yours at platform.openai.com"}
+            >
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={aiKey}
+                  onChange={(e) => setAiKey(e.target.value)}
+                  placeholder={me?.openai_api_key_hint ? me.openai_api_key_hint : "sk-..."}
+                  className="flex-1 px-3 py-2.5 rounded-xl border border-white/[0.08] bg-white/[0.04] text-white text-sm outline-none focus:border-brand/40 transition-colors placeholder-white/20"
+                />
+                {me?.openai_api_key_hint && (
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await api.patch("/api/auth/me", { openai_api_key: "" });
+                      setMe((prev) => prev ? { ...prev, openai_api_key_hint: null } : prev);
+                    }}
+                    className="px-3 py-2.5 rounded-xl text-xs font-medium text-red-400 border border-red-500/20 bg-red-500/[0.06] hover:bg-red-500/[0.12] transition-all duration-150"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              {aiError && (
+                <p className="text-red-400 text-xs mt-2 px-3 py-2 rounded-lg bg-red-500/[0.08] border border-red-500/20">{aiError}</p>
+              )}
+            </Field>
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={aiSaving || !aiKey}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 ${
+                  aiSaved
+                    ? "bg-emerald/20 border border-emerald/30 text-emerald"
+                    : "bg-gradient-brand hover:shadow-[0_0_20px_rgba(6,182,212,0.35)] hover:scale-105"
+                } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
+              >
+                {aiSaved ? (
+                  <><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> Saved</>
+                ) : aiSaving ? "Saving…" : "Save key"}
               </button>
             </div>
           </form>
