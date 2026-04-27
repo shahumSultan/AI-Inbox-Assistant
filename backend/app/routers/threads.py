@@ -1,12 +1,14 @@
 import json
 import os
+import re
 from datetime import date
 from typing import Any
 
-import anthropic
 from fastapi import APIRouter, Depends, HTTPException
+from openai import OpenAI
 from sqlalchemy.orm import Session
 
+from app.core.security import decrypt_field
 from app.deps import get_current_user, get_db, require_active
 from app.models import Action, ConversationThread, User
 from app.prompts.analysis import ANALYSIS_PROMPT, SYSTEM_PROMPT
@@ -15,24 +17,50 @@ from app.schemas.thread import AnalyseRequest, ThreadOut
 router = APIRouter(prefix="/api/threads", tags=["threads"])
 
 
-def _call_claude(raw_text: str) -> dict[str, Any]:
-    client = anthropic.Anthropic(api_key=os.environ["LLM_API_KEY"])
-    model = os.getenv("LLM_MODEL_ANALYSIS", "claude-sonnet-4-6")
+def _get_client_and_model(user: User) -> tuple[OpenAI, str]:
+    """Return (OpenAI client, model name) based on user config and admin fallback."""
+    if user.openai_api_key:
+        try:
+            key = decrypt_field(user.openai_api_key)
+            return OpenAI(api_key=key), "gpt-4o-mini"
+        except Exception:
+            pass
 
-    message = client.messages.create(
-        model=model,
-        max_tokens=2048,
-        system=SYSTEM_PROMPT,
-        messages=[{"role": "user", "content": ANALYSIS_PROMPT.format(thread_text=raw_text)}],
+    if user.is_admin:
+        groq_key = os.getenv("GROQ_API_KEY")
+        if groq_key:
+            return (
+                OpenAI(api_key=groq_key, base_url="https://api.groq.com/openai/v1"),
+                os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile"),
+            )
+
+    raise HTTPException(
+        503,
+        "No AI provider configured. Please add your OpenAI API key in Settings → AI.",
     )
 
-    text = message.content[0].text.strip()
-    # Strip markdown fences if model adds them despite instructions
-    if text.startswith("```"):
-        text = text.split("```")[1]
-        if text.startswith("json"):
-            text = text[4:]
-    return json.loads(text)
+
+def _call_ai(raw_text: str, user: User) -> dict[str, Any]:
+    client, model = _get_client_and_model(user)
+
+    response = client.chat.completions.create(
+        model=model,
+        max_tokens=2048,
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
+            {"role": "user", "content": ANALYSIS_PROMPT.replace("{thread_text}", raw_text)},
+        ],
+    )
+
+    content = response.choices[0].message.content
+    if not content:
+        raise ValueError("Model returned empty response")
+
+    # Extract JSON object — handles markdown fences, leading text, etc.
+    match = re.search(r"\{[\s\S]*\}", content)
+    if not match:
+        raise ValueError(f"No JSON object found in model response: {content[:200]}")
+    return json.loads(match.group())
 
 
 @router.post("/analyse", response_model=ThreadOut, status_code=201)
@@ -41,11 +69,10 @@ def analyse_thread(
     user: User = Depends(require_active),
     db: Session = Depends(get_db),
 ):
-    if not os.getenv("LLM_API_KEY"):
-        raise HTTPException(503, "LLM_API_KEY not configured")
-
     try:
-        result = _call_claude(body.raw_text)
+        result = _call_ai(body.raw_text, user)
+    except HTTPException:
+        raise
     except json.JSONDecodeError as e:
         raise HTTPException(502, f"LLM returned invalid JSON: {e}")
     except Exception as e:

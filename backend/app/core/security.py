@@ -1,7 +1,11 @@
+import base64
+import hashlib
+import os
 from datetime import datetime, timedelta, timezone
+
+from cryptography.fernet import Fernet
 from jose import jwt, JWTError
 from passlib.context import CryptContext
-import os
 
 SECRET_KEY = os.getenv("JWT_SECRET", "dev-secret-change-in-production")
 ALGORITHM = "HS256"
@@ -29,3 +33,17 @@ def decode_token(token: str) -> str | None:
         return payload.get("sub")
     except JWTError:
         return None
+
+
+def _fernet() -> Fernet:
+    raw = os.getenv("ENCRYPTION_KEY", "dev-encryption-key-32-bytesXXXX")
+    key = base64.urlsafe_b64encode(hashlib.sha256(raw.encode()).digest())
+    return Fernet(key)
+
+
+def encrypt_field(value: str) -> str:
+    return _fernet().encrypt(value.encode()).decode()
+
+
+def decrypt_field(value: str) -> str:
+    return _fernet().decrypt(value.encode()).decode()
