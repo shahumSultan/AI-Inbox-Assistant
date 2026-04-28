@@ -13,7 +13,7 @@ export default function SocialProof() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="text-center text-white/25 text-xs font-medium tracking-widest uppercase mb-8"
-         
+
         >
           Trusted by teams at
         </motion.p>

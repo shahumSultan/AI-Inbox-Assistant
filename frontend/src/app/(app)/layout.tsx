@@ -12,7 +12,7 @@ const NAV = [
     href: "/dashboard",
     label: "Dashboard",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
         <rect x="1" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
         <rect x="9" y="1" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
         <rect x="1" y="9" width="6" height="6" rx="1.5" stroke="currentColor" strokeWidth="1.3"/>
@@ -22,9 +22,9 @@ const NAV = [
   },
   {
     href: "/new-thread",
-    label: "New Thread",
+    label: "New",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
         <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
       </svg>
     ),
@@ -33,7 +33,7 @@ const NAV = [
     href: "/settings",
     label: "Settings",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
         <circle cx="8" cy="8" r="2.5" stroke="currentColor" strokeWidth="1.3"/>
         <path d="M8 1v2M8 13v2M1 8h2M13 8h2M2.93 2.93l1.41 1.41M11.66 11.66l1.41 1.41M2.93 13.07l1.41-1.41M11.66 4.34l1.41-1.41" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
       </svg>
@@ -75,17 +75,16 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div
-      className="flex h-screen dark:bg-black bg-slate-100"
+      className="flex h-[100dvh] dark:bg-black bg-slate-100"
       style={{
         backgroundImage: "radial-gradient(ellipse 70% 50% at 10% 0%, rgba(6,182,212,0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 90% 100%, rgba(249,115,22,0.05) 0%, transparent 50%)",
       }}
     >
-      {/* ── Sidebar ── */}
+      {/* ── Desktop Sidebar (md+) ── */}
       <aside
-        className="w-[220px] flex-shrink-0 flex flex-col dark:border-white/[0.06] border-slate-200 border-r"
+        className="hidden md:flex w-[220px] flex-shrink-0 flex-col dark:border-white/[0.06] border-slate-200 border-r"
         style={{ background: "var(--sidebar-bg)" }}
       >
-
         {/* Logo */}
         <div className="flex items-center gap-2.5 px-5 h-16 dark:border-white/[0.06] border-slate-200 border-b">
           <LogoMark size={28} />
@@ -109,7 +108,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 }`}
               >
                 <span className={active ? "text-brand" : ""}>{icon}</span>
-                {label}
+                {label === "New" ? "New Thread" : label}
               </Link>
             );
           })}
@@ -155,37 +154,89 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         </div>
       </aside>
 
-      {/* ── Main ── */}
-      <main className="flex-1 overflow-y-auto">
-        {isExpired ? (
-          <div className="flex items-center justify-center h-full px-8">
-            <div className="text-center max-w-sm">
-              <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-red-500/[0.08] border border-red-500/20">
-                <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                  <circle cx="14" cy="14" r="10" stroke="#ef4444" strokeWidth="1.8"/>
-                  <path d="M14 9v5M14 18v1" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round"/>
-                </svg>
-              </div>
-              <h2 className="text-white text-xl font-bold mb-3 tracking-tight">Your trial has ended</h2>
-              <p className="text-white/40 text-sm leading-relaxed mb-8">
-                Your 14-day free trial has expired. Upgrade to keep access to all your threads and AI analysis.
-              </p>
-              <Link
-                href="/#pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] transition-all duration-200"
-              >
-                View pricing plans
-              </Link>
-              <button
-                onClick={handleLogout}
-                className="block mx-auto mt-4 text-white/20 hover:text-white/50 text-sm transition-colors"
-              >
-                Sign out
-              </button>
-            </div>
+      {/* ── Content column ── */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+
+        {/* Mobile top bar */}
+        <header
+          className="md:hidden flex-shrink-0 flex items-center justify-between h-14 px-4 dark:border-white/[0.06] border-slate-200 border-b"
+          style={{ background: "var(--sidebar-bg)" }}
+        >
+          <div className="flex items-center gap-2">
+            <LogoMark size={26} />
+            <span className="dark:text-white text-slate-900 font-bold text-sm tracking-tight">
+              Inbox<span className="text-brand">AI</span>
+            </span>
           </div>
-        ) : children}
-      </main>
+          <div className="flex items-center gap-2">
+            <ThemeToggle />
+            <button
+              onClick={handleLogout}
+              className="w-8 h-8 rounded-lg flex items-center justify-center dark:text-white/30 dark:hover:text-white/60 text-slate-400 hover:text-slate-700 transition-colors dark:bg-white/[0.04] bg-slate-100 border dark:border-white/[0.08] border-slate-200"
+              title="Sign out"
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M5 2H2a1 1 0 00-1 1v8a1 1 0 001 1h3M9 10l3-3-3-3M12 7H5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="flex-1 overflow-y-auto">
+          {isExpired ? (
+            <div className="flex items-center justify-center h-full px-6">
+              <div className="text-center max-w-sm">
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-red-500/[0.08] border border-red-500/20">
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+                    <circle cx="14" cy="14" r="10" stroke="#ef4444" strokeWidth="1.8"/>
+                    <path d="M14 9v5M14 18v1" stroke="#ef4444" strokeWidth="1.8" strokeLinecap="round"/>
+                  </svg>
+                </div>
+                <h2 className="text-white text-xl font-bold mb-3 tracking-tight">Your trial has ended</h2>
+                <p className="text-white/40 text-sm leading-relaxed mb-8">
+                  Your 14-day free trial has expired. Upgrade to keep access to all your threads and AI analysis.
+                </p>
+                <Link
+                  href="/#pricing"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] transition-all duration-200"
+                >
+                  View pricing plans
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="block mx-auto mt-4 text-white/20 hover:text-white/50 text-sm transition-colors"
+                >
+                  Sign out
+                </button>
+              </div>
+            </div>
+          ) : children}
+        </main>
+
+        {/* Mobile bottom navigation */}
+        <nav
+          className="md:hidden flex-shrink-0 flex items-center h-[58px] dark:border-white/[0.06] border-slate-200 border-t"
+          style={{ background: "var(--sidebar-bg)" }}
+        >
+          {NAV.map(({ href, label, icon }) => {
+            const active = pathname === href || (href !== "/dashboard" && pathname.startsWith(href));
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2 transition-all duration-200 ${
+                  active ? "text-brand" : "dark:text-white/30 text-slate-400"
+                }`}
+              >
+                <span className={active ? "text-brand" : ""}>{icon}</span>
+                <span className="text-[10px] font-medium">{label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+      </div>
     </div>
   );
 }

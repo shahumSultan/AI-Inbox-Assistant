@@ -153,10 +153,10 @@ export default function SettingsPage() {
     : { label: "Free", color: "rgba(255,255,255,0.3)" };
 
   return (
-    <div className="px-8 py-10 max-w-2xl mx-auto w-full">
+    <div className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 max-w-2xl mx-auto w-full">
 
       <div className="mb-8">
-        <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Settings</h1>
+        <h1 className="dark:text-white text-slate-900 text-2xl sm:text-3xl font-bold tracking-tight mb-1">Settings</h1>
         <p className="dark:text-white/40 text-slate-500 text-sm">Manage your account and preferences</p>
       </div>
 

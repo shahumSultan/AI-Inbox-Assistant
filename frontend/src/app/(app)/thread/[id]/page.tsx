@@ -94,21 +94,22 @@ export default function ThreadPage() {
   const doneActions = thread.actions.filter((a) => a.status === "done");
 
   return (
-    <div className="flex flex-col px-8 py-10 max-w-3xl mx-auto w-full">
+    <div className="flex flex-col px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 max-w-3xl mx-auto w-full">
 
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3">
         <button
           onClick={() => router.push("/dashboard")}
-          className="flex items-center gap-2 dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 text-sm transition-colors"
+          className="flex items-center gap-2 dark:text-white/30 text-slate-400 hover:dark:text-white/60 text-slate-500 text-sm transition-colors flex-shrink-0"
         >
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M9 2L4 7l5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Dashboard
+          <span className="hidden sm:inline">Dashboard</span>
+          <span className="sm:hidden">Back</span>
         </button>
         <button
           onClick={() => router.push(`/reply/${thread.id}`)}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
+          className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200 flex-shrink-0"
         >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M1 7.5L5 3l4 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>

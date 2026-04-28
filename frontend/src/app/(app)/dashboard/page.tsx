@@ -210,12 +210,12 @@ export default function DashboardPage() {
   const followUpToday = data?.groups.find((g) => g.key === "follow_up_today")?.threads.length ?? 0;
 
   return (
-    <div className="flex flex-col h-full px-8 py-10">
+    <div className="flex flex-col h-full px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10">
 
       {/* Header */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Dashboard</h1>
+          <h1 className="dark:text-white text-slate-900 text-2xl sm:text-3xl font-bold tracking-tight mb-1">Dashboard</h1>
           <p className="dark:text-white/40 text-slate-500 text-sm">Your communication command centre</p>
         </div>
         {data && data.total > 0 && (

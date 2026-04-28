@@ -70,10 +70,10 @@ export default function NewThreadPage() {
   const p = result ? (PRIORITY[result.priority_score] ?? PRIORITY[3]) : null;
 
   return (
-    <div className="flex flex-col h-full px-8 py-10 max-w-3xl mx-auto w-full">
+    <div className="flex flex-col h-full px-4 py-6 sm:px-6 sm:py-8 md:px-8 md:py-10 max-w-3xl mx-auto w-full">
 
       <div className="mb-8">
-        <h1 className="dark:text-white text-slate-900 text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
+        <h1 className="dark:text-white text-slate-900 text-2xl sm:text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
         <p className="dark:text-white/40 text-slate-500 text-sm">Paste an email thread and get instant AI-powered next steps</p>
       </div>
 
