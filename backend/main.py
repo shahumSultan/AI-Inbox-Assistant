@@ -11,6 +11,7 @@ from app.routers.auth import router as auth_router
 from app.routers.threads import router as threads_router
 from app.routers.actions import router as actions_router
 from app.routers.replies import router as replies_router
+from app.routers.dashboard import router as dashboard_router
 
 load_dotenv()
 
@@ -57,6 +58,7 @@ app.include_router(auth_router)
 app.include_router(threads_router)
 app.include_router(actions_router)
 app.include_router(replies_router)
+app.include_router(dashboard_router)
 
 
 @app.get("/")
