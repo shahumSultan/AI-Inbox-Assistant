@@ -42,11 +42,11 @@ export default function Navbar() {
 
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]">
+            <div className="logo-glow transition-all duration-300">
               <LogoMark size={30} />
             </div>
             <span className="text-white font-bold text-base tracking-tight">
-              Inbox<span className="text-brand">AI</span>
+              Inbox<span className="text-brand">Cube</span>
             </span>
           </Link>
 
@@ -56,7 +56,7 @@ export default function Navbar() {
               <button
                 key={label}
                 onClick={() => scrollTo(href)}
-                className="text-white/60 hover:text-white text-sm px-3 py-2 rounded-full hover:bg-white/10 transition-all duration-200"
+                className="nav-link text-sm px-3 py-2 rounded-full"
               >
                 {label}
               </button>
@@ -67,13 +67,13 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-3">
             <Link
               href="/login"
-              className="text-white/60 hover:text-white text-sm px-4 py-2 rounded-full hover:bg-white/10 transition-all duration-200"
+              className="nav-link text-sm px-4 py-2 rounded-full"
             >
               Sign in
             </Link>
             <Link
               href="/register"
-              className="bg-gradient-brand text-sm font-semibold px-5 py-2 rounded-full text-white transition-all duration-300 hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
+              className="bg-gradient-brand text-sm font-semibold px-5 py-2 rounded-full text-white transition-all duration-300 hover-glow-md"
             >
               Get Started
             </Link>
@@ -81,7 +81,7 @@ export default function Navbar() {
 
           {/* Mobile burger */}
           <button
-            className="md:hidden text-white/60 hover:text-white p-1 transition-colors"
+            className="nav-link md:hidden p-1 rounded-lg"
             onClick={() => setOpen(!open)}
             aria-label="Toggle menu"
           >
@@ -108,13 +108,13 @@ export default function Navbar() {
                   <button
                     key={label}
                     onClick={() => { scrollTo(href); setOpen(false); }}
-                    className="text-left text-white/60 hover:text-white text-sm px-3 py-2.5 rounded-xl hover:bg-white/10 transition-all duration-200"
+                    className="nav-link text-left text-sm px-3 py-2.5 rounded-xl"
                   >
                     {label}
                   </button>
                 ))}
                 <div className="flex flex-col gap-2 mt-3 pt-3 border-t border-white/[0.06]">
-                  <Link href="/login" className="text-center text-white/60 text-sm py-2.5 rounded-full border border-white/10 hover:bg-white/10 transition-all" onClick={() => setOpen(false)}>Sign in</Link>
+                  <Link href="/login" className="nav-link text-center text-sm py-2.5 rounded-full border border-white/10" onClick={() => setOpen(false)}>Sign in</Link>
                   <Link href="/register" className="bg-gradient-brand text-center text-sm font-semibold py-2.5 rounded-full text-white" onClick={() => setOpen(false)}>Get Started</Link>
                 </div>
               </div>

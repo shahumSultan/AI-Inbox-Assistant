@@ -29,10 +29,10 @@ interface ThreadOut {
 }
 
 const PRIORITY: Record<number, { label: string; color: string }> = {
-  1: { label: "Low",      color: "#06b6d4" },
-  2: { label: "Normal",   color: "#06b6d4" },
+  1: { label: "Low",      color: "#A92E2E" },
+  2: { label: "Normal",   color: "#A92E2E" },
   3: { label: "Medium",   color: "#f59e0b" },
-  4: { label: "High",     color: "#f97316" },
+  4: { label: "High",     color: "#FFB3B3" },
   5: { label: "Critical", color: "#ef4444" },
 };
 
@@ -82,8 +82,8 @@ export default function ThreadPage() {
   if (!thread) return (
     <div className="px-8 py-10 flex items-center gap-3">
       <svg className="animate-spin" width="18" height="18" viewBox="0 0 24 24" fill="none">
-        <circle cx="12" cy="12" r="9" stroke="rgba(6,182,212,0.25)" strokeWidth="2"/>
-        <path d="M12 3a9 9 0 019 9" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round"/>
+        <circle cx="12" cy="12" r="9" className="stroke-brand-25" strokeWidth="2"/>
+        <path d="M12 3a9 9 0 019 9" className="stroke-brand" strokeWidth="2" strokeLinecap="round"/>
       </svg>
       <span className="dark:text-white/30 text-slate-400 text-sm">Loading…</span>
     </div>
@@ -109,7 +109,7 @@ export default function ThreadPage() {
         </button>
         <button
           onClick={() => router.push(`/reply/${thread.id}`)}
-          className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_20px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200 flex-shrink-0"
+          className="inline-flex items-center gap-1.5 px-3 py-2 sm:px-4 rounded-xl text-xs sm:text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200 flex-shrink-0"
         >
           <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
             <path d="M1 7.5L5 3l4 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -181,12 +181,7 @@ export default function ThreadPage() {
                         </div>
                         <button
                           onClick={() => copyText(action.id, action.suggested_text!)}
-                          className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border"
-                          style={{
-                            background:  copied === action.id ? "rgba(6,182,212,0.12)" : "rgba(255,255,255,0.06)",
-                            color:       copied === action.id ? "#06b6d4" : "rgba(255,255,255,0.4)",
-                            borderColor: copied === action.id ? "rgba(6,182,212,0.3)" : "rgba(255,255,255,0.08)",
-                          }}
+                          className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border ${copied === action.id ? "copy-active" : "copy-idle"}`}
                         >
                           {copied === action.id ? "✓ Copied" : "Copy reply"}
                         </button>

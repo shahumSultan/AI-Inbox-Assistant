@@ -59,14 +59,14 @@ export default function ShaderShowcase() {
             </feMerge>
           </filter>
           <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#06b6d4" />
+            <stop offset="0%" stopColor="#A92E2E" />
             <stop offset="50%" stopColor="#ffffff" />
-            <stop offset="100%" stopColor="#0891b2" />
+            <stop offset="100%" stopColor="#7a1f1f" />
           </linearGradient>
           <linearGradient id="hero-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#ffffff" />
-            <stop offset="30%" stopColor="#06b6d4" />
-            <stop offset="70%" stopColor="#f97316" />
+            <stop offset="30%" stopColor="#A92E2E" />
+            <stop offset="70%" stopColor="#FFB3B3" />
             <stop offset="100%" stopColor="#ffffff" />
           </linearGradient>
           <filter id="text-glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -81,12 +81,12 @@ export default function ShaderShowcase() {
 
       <MeshGradient
         className="absolute inset-0 w-full h-full"
-        colors={["#000000", "#06b6d4", "#0891b2", "#164e63", "#f97316"]}
+        colors={["#000000", "#A92E2E", "#7a1f1f", "#3d1010", "#FFB3B3"]}
         speed={0.3}
       />
       <MeshGradient
         className="absolute inset-0 w-full h-full opacity-40"
-        colors={["#000000", "#ffffff", "#06b6d4", "#f97316"]}
+        colors={["#000000", "#ffffff", "#A92E2E", "#FFB3B3"]}
         speed={0.2}
       />
 
@@ -196,7 +196,7 @@ export default function ShaderShowcase() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <div className="absolute top-0 left-1 right-1 h-px bg-gradient-to-r from-transparent via-cyan-400/30 to-transparent rounded-full" />
+            <div className="hero-top-line absolute top-0 left-1 right-1 h-px rounded-full" />
             <span className="text-white/90 text-sm font-medium relative z-10 tracking-wide">
               ✨ New Paper Shaders Experience
             </span>
@@ -211,7 +211,7 @@ export default function ShaderShowcase() {
             <motion.span
               className="block font-light text-white/90 text-4xl md:text-5xl lg:text-6xl mb-2 tracking-wider"
               style={{
-                background: "linear-gradient(135deg, #ffffff 0%, #06b6d4 30%, #f97316 70%, #ffffff 100%)",
+                background: "linear-gradient(135deg, #ffffff 0%, #A92E2E 30%, #FFB3B3 70%, #ffffff 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 backgroundClip: "text",
@@ -249,14 +249,14 @@ export default function ShaderShowcase() {
             transition={{ duration: 0.6, delay: 1.0 }}
           >
             <motion.button
-              className="px-10 py-4 rounded-full bg-transparent border-2 border-white/30 text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-cyan-400/50 hover:text-cyan-100 cursor-pointer backdrop-blur-sm"
+              className="px-10 py-4 rounded-full bg-transparent border-2 border-white/30 text-white font-medium text-sm transition-all duration-300 hover:bg-white/10 hover:border-brand/50 hover:text-accent cursor-pointer backdrop-blur-sm"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               View Pricing
             </motion.button>
             <motion.button
-              className="px-10 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-orange-500 text-white font-semibold text-sm transition-all duration-300 hover:from-cyan-400 hover:to-orange-400 cursor-pointer shadow-lg hover:shadow-xl"
+              className="btn-brand-gradient px-10 py-4 rounded-full text-white font-semibold text-sm cursor-pointer shadow-lg hover:shadow-xl"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -269,7 +269,7 @@ export default function ShaderShowcase() {
       <div className="absolute bottom-8 right-8 z-30">
         <div className="relative w-20 h-20 flex items-center justify-center">
           <PulsingBorder
-            colors={["#06b6d4", "#0891b2", "#f97316", "#00FF88", "#FFD700", "#FF6B35", "#ffffff"]}
+            colors={["#A92E2E", "#7a1f1f", "#FFB3B3", "#FF6B6B", "#FFD0D0", "#FF8080", "#ffffff"]}
             colorBack="#00000000"
             speed={1.5}
             roundness={1}

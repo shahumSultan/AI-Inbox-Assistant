@@ -181,7 +181,7 @@ export default function ReplyPage() {
         <button
           onClick={generate}
           disabled={loading}
-          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
+          className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
         >
           {loading ? (
             <>
@@ -244,12 +244,7 @@ export default function ReplyPage() {
                 )}
                 <button
                   onClick={copy}
-                  className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border"
-                  style={{
-                    background:   copied ? "rgba(6,182,212,0.12)" : "rgba(255,255,255,0.06)",
-                    color:        copied ? "#06b6d4" : "rgba(255,255,255,0.5)",
-                    borderColor:  copied ? "rgba(6,182,212,0.3)" : "rgba(255,255,255,0.08)",
-                  }}
+                  className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border ${copied ? "copy-active" : "copy-idle"}`}
                 >
                   {copied ? "✓ Copied" : "Copy"}
                 </button>

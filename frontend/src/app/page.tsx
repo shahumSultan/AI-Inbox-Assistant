@@ -17,7 +17,7 @@ export default function Home() {
       <div className="fixed inset-0 z-0">
         <MeshGradient
           className="w-full h-full"
-          colors={["#000000", "#06b6d4", "#0891b2", "#164e63", "#f97316"]}
+          colors={["#000000", "#A92E2E", "#7a1f1f", "#3d1010", "#FFB3B3"]}
           speed={0.04}
         />
         {/* Dark overlay so content is readable */}

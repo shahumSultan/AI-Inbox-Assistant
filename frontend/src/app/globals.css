@@ -7,27 +7,55 @@
   --font-display: var(--font-outfit);
   --font-body:    var(--font-outfit);
 
-  /* Design tokens — use as text-brand, bg-brand, border-brand etc. */
-  --color-brand:   #06b6d4;   /* cyan-500  — primary  */
-  --color-accent:  #f97316;   /* orange-500 — accent   */
-  --color-violet:  #a78bfa;   /* violet-400            */
-  --color-emerald: #34d399;   /* emerald-400           */
-  --color-pink:    #f472b6;   /* pink-400              */
-  --color-sky:     #60a5fa;   /* sky-400               */
+  /* Design tokens — change these two lines to retheme the entire product */
+  --color-brand:   #A92E2E;
+  --color-accent:  #FFB3B3;
+  --color-violet:  #a78bfa;
+  --color-emerald: #34d399;
+  --color-pink:    #f472b6;
+  --color-sky:     #60a5fa;
+}
+
+/* Text colour tiers — backed by CSS variables so globals.css is the one place to
+   change any shade across the entire product. Use text-t1 … text-t9 in components. */
+@theme inline {
+  --color-t1: var(--text-1);
+  --color-t2: var(--text-2);
+  --color-t3: var(--text-3);
+  --color-t4: var(--text-4);
+  --color-t5: var(--text-5);
+  --color-t6: var(--text-6);
+  --color-t7: var(--text-7);
+  --color-t8: var(--text-8);
+  --color-t9: var(--text-9);
 }
 
 /* Dark mode (default) */
 :root {
-  --brand-rgb:  6, 182, 212;
-  --accent-rgb: 249, 115, 22;
+  /* Change these two lines together with @theme above to retheme */
+  --brand-rgb:  169, 46, 46;
+  --accent-rgb: 255, 179, 179;
 
-  --page-bg:    #000000;
+  --page-bg:    #0a0404;
   --surface:    rgba(255,255,255,0.025);
   --surface-2:  rgba(255,255,255,0.04);
   --surface-3:  rgba(255,255,255,0.07);
   --sidebar-bg: rgba(0,0,0,0.6);
   --border:     rgba(255,255,255,0.07);
   --border-2:   rgba(255,255,255,0.12);
+
+  /* ── Text colour tiers (dark mode) ──────────────────────────────────────────
+     t1 = primary headings · t9 = barely-visible hints
+     Change only these 9 lines to retheme every text shade site-wide. */
+  --text-1: #ffffff;
+  --text-2: rgba(255, 255, 255, 0.80);
+  --text-3: rgba(255, 255, 255, 0.70);
+  --text-4: rgba(255, 255, 255, 0.60);
+  --text-5: rgba(255, 255, 255, 0.50);
+  --text-6: rgba(255, 255, 255, 0.40);
+  --text-7: rgba(255, 255, 255, 0.30);
+  --text-8: rgba(255, 255, 255, 0.25);
+  --text-9: rgba(255, 255, 255, 0.20);
 }
 
 /* Light mode */
@@ -39,11 +67,21 @@ html.light {
   --sidebar-bg: rgba(255,255,255,0.95);
   --border:     rgba(0,0,0,0.08);
   --border-2:   rgba(0,0,0,0.14);
+
+  /* ── Text colour tiers (light mode) ─────────────────────────────────────── */
+  --text-1: #0f172a;
+  --text-2: #1e293b;
+  --text-3: #475569;
+  --text-4: #475569;
+  --text-5: #64748b;
+  --text-6: #64748b;
+  --text-7: #94a3b8;
+  --text-8: #94a3b8;
+  --text-9: #cbd5e1;
 }
 
 /* ── Base ── */
 html {
-  /* scroll-padding-top offsets anchor targets so they clear the fixed navbar */
   scroll-padding-top: 64px;
 }
 
@@ -60,11 +98,11 @@ html.light body {
 
 /* ── Gradient utilities ── */
 .bg-gradient-brand {
-  background: linear-gradient(135deg, #06b6d4, #f97316);
+  background: linear-gradient(135deg, var(--color-brand), var(--color-accent));
 }
 
 .text-gradient-brand {
-  background: linear-gradient(135deg, #fff 0%, #06b6d4 40%, #f97316 100%);
+  background: linear-gradient(135deg, #fff 0%, var(--color-brand) 40%, var(--color-accent) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -95,3 +133,120 @@ html.light body {
 .animate-float        { animation: float 5s ease-in-out infinite; }
 .animate-pulse-dot    { animation: pulse-dot 2s ease-in-out infinite; }
 .animate-gradient     { background-size: 300% 300%; animation: gradient-drift 6s ease infinite; }
+
+/* ── Navigation ── */
+.nav-link {
+  color: #ffffff;
+  transition: color 0.2s ease, background 0.2s ease;
+}
+.nav-link:hover {
+  color: #ffffff;
+  background: rgb(255, 255, 255);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   BRAND COLOUR UTILITIES
+   To retheme the entire product, update only:
+     @theme      → --color-brand / --color-accent
+     :root       → --brand-rgb  / --accent-rgb
+   Everything below reads from those variables.
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+
+/* ── Hover glow box-shadows on buttons ── */
+.hover-glow-sm:hover  { box-shadow: 0 0 20px rgba(var(--brand-rgb), 0.35); }
+.hover-glow-md:hover  { box-shadow: 0 0 24px rgba(var(--brand-rgb), 0.40); }
+.hover-glow-lg:hover  { box-shadow: 0 0 30px rgba(var(--brand-rgb), 0.50); }
+.hover-glow-xl:hover  { box-shadow: 0 0 40px rgba(var(--brand-rgb), 0.50); }
+.hover-glow-2xl:hover { box-shadow: 0 0 28px rgba(var(--brand-rgb), 0.45); }
+.glow-badge           { box-shadow: 0 0 20px rgba(var(--brand-rgb), 0.40); }
+
+/* ── Logo drop-shadow on group hover ── */
+.group:hover .logo-glow    { filter: drop-shadow(0 0 10px rgba(var(--brand-rgb), 0.60)); }
+.group:hover .logo-glow-sm { filter: drop-shadow(0 0 8px  rgba(var(--brand-rgb), 0.60)); }
+.group:hover .logo-glow-lg { filter: drop-shadow(0 0 16px rgba(var(--brand-rgb), 0.60)); }
+
+/* ── SVG strokes ── */
+.stroke-brand    { stroke: var(--color-brand); }
+.stroke-brand-25 { stroke: rgba(var(--brand-rgb), 0.25); }
+
+/* ── AI Active / inline badge ── */
+.badge-brand {
+  background: rgba(var(--brand-rgb), 0.10);
+  border: 1px solid rgba(var(--brand-rgb), 0.20);
+  color: var(--color-brand);
+}
+
+/* ── CTA / section pill badge ── */
+.badge-brand-outline {
+  border: 1px solid rgba(var(--brand-rgb), 0.25);
+  background: rgba(var(--brand-rgb), 0.05);
+}
+
+/* ── Copy-button idle / active states ── */
+.copy-idle {
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.40);
+  border-color: rgba(255,255,255,0.08);
+}
+.copy-active {
+  background: rgba(var(--brand-rgb), 0.12);
+  color: var(--color-brand);
+  border-color: rgba(var(--brand-rgb), 0.30);
+}
+
+/* ── Inbox mockup ── */
+.inbox-footer { background: rgba(var(--brand-rgb), 0.04); }
+
+/* ── Pricing card (highlighted) ── */
+.pricing-featured-card {
+  border-color: rgba(var(--brand-rgb), 0.30);
+  box-shadow: 0 0 60px rgba(var(--brand-rgb), 0.12), 0 0 0 1px rgba(var(--brand-rgb), 0.08);
+  background: linear-gradient(160deg, rgba(var(--brand-rgb), 0.12) 0%, rgba(0,0,0,0.65) 50%);
+}
+.pricing-divider-featured { background: rgba(var(--brand-rgb), 0.20); }
+.pricing-divider-default  { background: rgba(255,255,255,0.06); }
+
+/* ── Page background patterns ── */
+.bg-auth {
+  background-image: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(var(--brand-rgb), 0.12) 0%, transparent 60%);
+}
+
+.bg-app-layout {
+  background-image:
+    radial-gradient(ellipse 70% 50% at 10% 0%,  rgba(var(--brand-rgb), 0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 90% 100%, rgba(var(--accent-rgb), 0.05) 0%, transparent 50%);
+}
+
+.bg-how-it-works {
+  background: radial-gradient(ellipse, rgba(var(--brand-rgb), 0.08) 0%, transparent 65%);
+}
+
+.bg-cta-pattern {
+  background: linear-gradient(135deg, rgba(var(--brand-rgb), 0.10) 0%, transparent 50%, rgba(var(--accent-rgb), 0.06) 100%);
+}
+
+.bg-cta-grid {
+  background-image:
+    linear-gradient(rgba(var(--brand-rgb), 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--brand-rgb), 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── How-it-works step connector ── */
+.steps-connector {
+  background: linear-gradient(90deg, rgba(var(--brand-rgb), 0.40), rgba(167,139,250,0.35), rgba(52,211,153,0.30));
+}
+
+/* ── Hero top highlight line (ui/hero.tsx) ── */
+.hero-top-line {
+  background: linear-gradient(to right, transparent, rgba(var(--brand-rgb), 0.30), transparent);
+}
+
+/* ── Gradient CTA button (ui/hero.tsx showcase) ── */
+.btn-brand-gradient {
+  background: linear-gradient(to right, var(--color-brand), var(--color-accent));
+  transition: filter 0.3s ease, box-shadow 0.3s ease;
+}
+.btn-brand-gradient:hover {
+  filter: brightness(1.1);
+}

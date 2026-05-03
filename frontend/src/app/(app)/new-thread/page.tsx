@@ -27,10 +27,10 @@ interface ThreadOut {
 }
 
 const PRIORITY: Record<number, { label: string; color: string }> = {
-  1: { label: "Low",      color: "#06b6d4" },
-  2: { label: "Normal",   color: "#06b6d4" },
+  1: { label: "Low",      color: "#A92E2E" },
+  2: { label: "Normal",   color: "#A92E2E" },
   3: { label: "Medium",   color: "#f59e0b" },
-  4: { label: "High",     color: "#f97316" },
+  4: { label: "High",     color: "#FFB3B3" },
   5: { label: "Critical", color: "#ef4444" },
 };
 
@@ -105,7 +105,7 @@ export default function NewThreadPage() {
             <button
               type="submit"
               disabled={loading || text.trim().length < 20}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none"
             >
               {loading ? (
                 <>
@@ -193,12 +193,7 @@ export default function NewThreadPage() {
                             </div>
                             <button
                               onClick={() => copyText(action.id, action.suggested_text!)}
-                              className="inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border"
-                              style={{
-                                background:   copied === action.id ? "rgba(6,182,212,0.12)" : "rgba(255,255,255,0.06)",
-                                color:        copied === action.id ? "#06b6d4" : "rgba(255,255,255,0.4)",
-                                borderColor:  copied === action.id ? "rgba(6,182,212,0.3)" : "rgba(255,255,255,0.08)",
-                              }}
+                              className={`inline-flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-lg transition-all duration-200 border ${copied === action.id ? "copy-active" : "copy-idle"}`}
                             >
                               {copied === action.id ? "✓ Copied" : "Copy reply"}
                             </button>
@@ -218,7 +213,7 @@ export default function NewThreadPage() {
             </button>
             <button
               onClick={() => router.push("/dashboard")}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200"
             >
               View Dashboard →
             </button>

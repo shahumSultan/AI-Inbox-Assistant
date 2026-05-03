@@ -82,7 +82,7 @@ export default function Pricing() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
+          <span className="text-brand text-xs font-medium tracking-widest uppercase">
             Simple pricing
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
@@ -90,7 +90,7 @@ export default function Pricing() {
             <br />
             <span className="text-white/30 font-light">Nothing more.</span>
           </h2>
-          <p className="text-white/40 mt-4 text-sm">
+          <p className="text-2 mt-4 text-sm">
             All plans include a 14-day free trial. No credit card required.
           </p>
         </motion.div>
@@ -121,21 +121,17 @@ function PricingCard({ plan }: { plan: Plan }) {
         plan.disabled ? "opacity-55" : ""
       } ${
         plan.highlighted
-          ? "border-cyan-500/30 shadow-[0_0_60px_rgba(6,182,212,0.12),0_0_0_1px_rgba(6,182,212,0.08)]"
+          ? "pricing-featured-card"
           : "border-white/[0.07] hover:border-white/[0.15]"
       }`}
-      style={{
-        background: plan.highlighted
-          ? "linear-gradient(160deg, rgba(6,182,212,0.12) 0%, rgba(0,0,0,0.65) 50%)"
-          : "rgba(0,0,0,0.55)",
-      }}
+      style={plan.highlighted ? undefined : { background: "rgba(0,0,0,0.55)" }}
     >
       {plan.badge && (
         <div
           className={`absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full text-[11px] font-semibold whitespace-nowrap ${
             plan.highlighted
-              ? "bg-gradient-brand text-white shadow-[0_0_20px_rgba(6,182,212,0.4)]"
-              : "bg-white/[0.08] text-white/40"
+              ? "bg-gradient-brand text-white glow-badge"
+              : "bg-white/[0.08] text-2"
           }`}
         >
           {plan.badge}
@@ -146,7 +142,7 @@ function PricingCard({ plan }: { plan: Plan }) {
         <h3 className="text-white font-bold text-xl mb-1.5">
           {plan.name}
         </h3>
-        <p className="text-white/40 text-sm leading-relaxed">
+        <p className="text-2 text-sm leading-relaxed">
           {plan.desc}
         </p>
       </div>
@@ -161,8 +157,7 @@ function PricingCard({ plan }: { plan: Plan }) {
       </div>
 
       <div
-        className="h-px w-full mb-6"
-        style={{ background: plan.highlighted ? "rgba(6,182,212,0.2)" : "rgba(255,255,255,0.06)" }}
+        className={`h-px w-full mb-6 ${plan.highlighted ? "pricing-divider-featured" : "pricing-divider-default"}`}
       />
 
       <ul className="flex flex-col gap-3 mb-8 flex-1">
@@ -171,13 +166,14 @@ function PricingCard({ plan }: { plan: Plan }) {
             <svg width="15" height="15" viewBox="0 0 15 15" fill="none" className="flex-shrink-0 mt-[1px]">
               <path
                 d="M3 7.5l3 3 6-6"
-                stroke={plan.highlighted ? "#06b6d4" : "rgba(255,255,255,0.2)"}
+                className={plan.highlighted ? "stroke-brand" : ""}
+                stroke={plan.highlighted ? undefined : "rgba(255,255,255,0.2)"}
                 strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
             </svg>
-            <span className="text-white/50 text-sm leading-relaxed">
+            <span className="text-2 text-sm leading-relaxed">
               {feat}
             </span>
           </li>
@@ -197,8 +193,8 @@ function PricingCard({ plan }: { plan: Plan }) {
           href={plan.ctaHref}
           className={`w-full py-3.5 rounded-xl text-sm font-semibold text-center transition-all duration-200 block ${
             plan.highlighted
-              ? "bg-gradient-brand text-white hover:shadow-[0_0_28px_rgba(6,182,212,0.45)] hover:brightness-110"
-              : "text-white/70 hover:text-white border border-white/[0.07] hover:border-white/[0.15] hover:bg-white/[0.05]"
+              ? "bg-gradient-brand text-white hover-glow-2xl hover:brightness-110"
+              : "text-2 hover:text-white border border-white/[0.07] hover:border-white/[0.15] hover:bg-white/[0.05]"
           }`}
         >
           {plan.cta}

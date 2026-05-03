@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const FEATURES = [
   {
-    accent: "#06b6d4",
+    accent: "#A92E2E",
     icon: (<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 5l7 4 7-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" strokeWidth="1.4"/><path d="M6 9h6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>),
     title: "Smart Summarisation",
     desc: "Get a 3-line digest of every email thread — automatically. Never wade through a wall of text again.",
@@ -22,7 +22,7 @@ const FEATURES = [
     desc: "AI drafts context-aware replies you can approve and send with a single click, or tweak in seconds.",
   },
   {
-    accent: "#f97316",
+    accent: "#FFB3B3",
     icon: (<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="12" rx="2" stroke="currentColor" strokeWidth="1.4"/><path d="M2 8h14M6 2v4M12 2v4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/></svg>),
     title: "Calendar Integration",
     desc: "Meeting requests are automatically parsed, conflicts checked, and events synced to Google Calendar.",
@@ -52,13 +52,13 @@ export default function Features() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
+          <span className="text-brand text-xs font-medium tracking-widest uppercase">
             Everything you need
           </span>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
+          <h2 className="text-4xl sm:text-5xl font-bold text-t1 mt-3 tracking-tight leading-tight">
             Inbox superpowers,
             <br />
-            <span className="text-white/30 font-light">without the complexity</span>
+            <span className="text-t3 font-light">without the complexity</span>
           </h2>
         </motion.div>
 
@@ -86,7 +86,7 @@ export default function Features() {
               <h3 className="text-white font-semibold text-lg mb-2 tracking-tight">
                 {f.title}
               </h3>
-              <p className="text-white/40 text-sm leading-relaxed">
+              <p className="text-t3 text-sm leading-relaxed">
                 {f.desc}
               </p>
             </motion.div>

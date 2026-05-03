@@ -5,13 +5,13 @@ import { motion } from "framer-motion";
 const STEPS = [
   {
     num: "01",
-    accent: "#06b6d4",
+    accent: "#A92E2E",
     title: "Connect Gmail",
     desc: "Link your Gmail account in under 30 seconds using Google OAuth. Your credentials never touch our servers.",
     icon: (
       <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
-        <path d="M3 8l8 5 8-5" stroke="#06b6d4" strokeWidth="1.5" strokeLinecap="round"/>
-        <rect x="3" y="7" width="16" height="10" rx="2.5" stroke="#06b6d4" strokeWidth="1.5"/>
+        <path d="M3 8l8 5 8-5" className="stroke-brand" strokeWidth="1.5" strokeLinecap="round"/>
+        <rect x="3" y="7" width="16" height="10" rx="2.5" className="stroke-brand" strokeWidth="1.5"/>
       </svg>
     ),
   },
@@ -44,10 +44,7 @@ const STEPS = [
 export default function HowItWorks() {
   return (
     <section id="how-it-works" className="py-28 relative overflow-hidden">
-      <div
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] pointer-events-none"
-        style={{ background: "radial-gradient(ellipse, rgba(6,182,212,0.08) 0%, transparent 65%)" }}
-      />
+      <div className="bg-how-it-works absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[500px] pointer-events-none" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-8">
 
@@ -57,7 +54,7 @@ export default function HowItWorks() {
           viewport={{ once: true }}
           className="text-center mb-20"
         >
-          <span className="text-cyan-400 text-xs font-medium tracking-widest uppercase">
+          <span className="text-brand text-xs font-medium tracking-widest uppercase">
             Dead-simple setup
           </span>
           <h2 className="text-4xl sm:text-5xl font-bold text-white mt-3 tracking-tight leading-tight">
@@ -67,10 +64,7 @@ export default function HowItWorks() {
         </motion.div>
 
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-10 md:gap-6">
-          <div
-            className="hidden md:block absolute top-9 left-[calc(16.66%+32px)] right-[calc(16.66%+32px)] h-px"
-            style={{ background: "linear-gradient(90deg, rgba(6,182,212,0.4), rgba(167,139,250,0.35), rgba(52,211,153,0.3))" }}
-          />
+          <div className="steps-connector hidden md:block absolute top-9 left-[calc(16.66%+32px)] right-[calc(16.66%+32px)] h-px" />
 
           {STEPS.map((step, i) => (
             <motion.div
@@ -103,7 +97,7 @@ export default function HowItWorks() {
               <h3 className="text-white font-bold text-xl mb-3">
                 {step.title}
               </h3>
-              <p className="text-white/40 text-sm leading-relaxed max-w-[260px]">
+              <p className="text-t2 text-sm leading-relaxed max-w-[260px]">
                 {step.desc}
               </p>
             </motion.div>

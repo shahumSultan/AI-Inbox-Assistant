@@ -40,21 +40,16 @@ export default function RegisterPage() {
   }
 
   return (
-    <div
-      className="min-h-screen flex items-center justify-center px-4 dark:bg-black bg-slate-100"
-      style={{
-        backgroundImage: "radial-gradient(ellipse 80% 60% at 50% -10%, rgba(6,182,212,0.12) 0%, transparent 60%)",
-      }}
-    >
+    <div className="bg-auth min-h-screen flex items-center justify-center px-4 dark:bg-black bg-slate-100">
       <div className="w-full max-w-sm">
 
         {/* Logo */}
         <Link href="/" className="flex flex-col items-center mb-10 group">
-          <div className="mb-3 transition-all duration-300 group-hover:drop-shadow-[0_0_16px_rgba(6,182,212,0.6)]">
+          <div className="logo-glow-lg mb-3 transition-all duration-300">
             <LogoMark size={44} />
           </div>
           <span className="dark:text-white text-slate-900 font-bold text-xl tracking-tight">
-            Inbox<span className="text-brand">AI</span>
+            Inbox<span className="text-brand">Cube</span>
           </span>
         </Link>
 
@@ -98,7 +93,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_28px_rgba(6,182,212,0.45)] hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none mt-2"
+              className="w-full py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-2xl hover:scale-[1.02] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 disabled:hover:shadow-none mt-2"
             >
               {loading ? "Creating account…" : "Create account"}
             </button>

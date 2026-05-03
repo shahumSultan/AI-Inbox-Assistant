@@ -7,17 +7,8 @@ export default function CtaBanner() {
   return (
     <section className="py-24 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
-        <div
-          className="absolute inset-0"
-          style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.1) 0%, transparent 50%, rgba(249,115,22,0.06) 100%)" }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: "linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px)",
-            backgroundSize: "40px 40px",
-          }}
-        />
+        <div className="bg-cta-pattern absolute inset-0" />
+        <div className="bg-cta-grid absolute inset-0" />
         <div className="absolute top-0 left-0 right-0 h-24" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.8), transparent)" }} />
         <div className="absolute bottom-0 left-0 right-0 h-24" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.8), transparent)" }} />
       </div>
@@ -28,10 +19,10 @@ export default function CtaBanner() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-7 border border-cyan-500/25 bg-cyan-500/5"
+          className="badge-brand-outline inline-flex items-center gap-2 px-4 py-2 rounded-full mb-7 border"
         >
-          <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-cyan-400 text-xs font-medium">
+          <span className="w-1.5 h-1.5 rounded-full bg-brand animate-pulse" />
+          <span className="text-brand text-xs font-medium">
             Free for 14 days — no card needed
           </span>
         </motion.div>
@@ -56,7 +47,7 @@ export default function CtaBanner() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2 }}
-          className="text-white/50 text-lg leading-relaxed mb-11 max-w-xl mx-auto"
+          className="text-t2 text-lg leading-relaxed mb-11 max-w-xl mx-auto"
          
         >
           Join thousands of professionals who handed their inbox to AI — and never looked back.
@@ -71,7 +62,7 @@ export default function CtaBanner() {
         >
           <Link
             href="/register"
-            className="bg-gradient-brand inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover:shadow-[0_0_40px_rgba(6,182,212,0.5)] hover:scale-105"
+            className="bg-gradient-brand inline-flex items-center gap-2 px-8 py-3.5 rounded-full text-sm font-semibold text-white transition-all duration-300 hover-glow-xl hover:scale-105"
           >
             Start Your Free Trial
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">

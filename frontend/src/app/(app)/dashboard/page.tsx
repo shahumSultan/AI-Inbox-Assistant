@@ -33,7 +33,7 @@ const PRIORITY: Record<number, { label: string; color: string }> = {
   1: { label: "P1", color: "#64748b" },
   2: { label: "P2", color: "#64748b" },
   3: { label: "P3", color: "#f59e0b" },
-  4: { label: "P4", color: "#f97316" },
+  4: { label: "P4", color: "#FFB3B3" },
   5: { label: "P5", color: "#ef4444" },
 };
 
@@ -221,7 +221,7 @@ export default function DashboardPage() {
         {data && data.total > 0 && (
           <Link
             href="/new-thread"
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200"
           >
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
               <path d="M6 1v10M1 6h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>
@@ -258,8 +258,8 @@ export default function DashboardPage() {
         <div className="flex-1 flex items-center justify-center">
           <div className="flex flex-col items-center gap-3">
             <svg className="animate-spin" width="24" height="24" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="9" stroke="rgba(6,182,212,0.25)" strokeWidth="2"/>
-              <path d="M12 3a9 9 0 019 9" stroke="#06b6d4" strokeWidth="2" strokeLinecap="round"/>
+              <circle cx="12" cy="12" r="9" className="stroke-brand-25" strokeWidth="2"/>
+              <path d="M12 3a9 9 0 019 9" className="stroke-brand" strokeWidth="2" strokeLinecap="round"/>
             </svg>
             <p className="dark:text-white/30 text-slate-400 text-sm">Loading…</p>
           </div>
@@ -279,8 +279,8 @@ export default function DashboardPage() {
           <div className="text-center max-w-sm">
             <div className="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-brand/[0.08] border border-brand/20">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-                <path d="M4 8l10 6 10-6" stroke="#06b6d4" strokeWidth="1.8" strokeLinecap="round"/>
-                <rect x="4" y="7" width="20" height="14" rx="3" stroke="#06b6d4" strokeWidth="1.8"/>
+                <path d="M4 8l10 6 10-6" className="stroke-brand" strokeWidth="1.8" strokeLinecap="round"/>
+                <rect x="4" y="7" width="20" height="14" rx="3" className="stroke-brand" strokeWidth="1.8"/>
               </svg>
             </div>
             <h2 className="dark:text-white text-slate-900 text-xl font-bold mb-3 tracking-tight">No threads yet</h2>
@@ -289,7 +289,7 @@ export default function DashboardPage() {
             </p>
             <Link
               href="/new-thread"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] hover:scale-105 transition-all duration-200"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md hover:scale-105 transition-all duration-200"
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                 <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round"/>

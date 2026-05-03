@@ -66,7 +66,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     : "Free";
 
   const planColor = user?.is_admin
-    ? "#06b6d4"
+    ? "#A92E2E"
     : isExpired
     ? "#ef4444"
     : showBanner
@@ -74,12 +74,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
     : "rgba(255,255,255,0.3)";
 
   return (
-    <div
-      className="flex h-[100dvh] dark:bg-black bg-slate-100"
-      style={{
-        backgroundImage: "radial-gradient(ellipse 70% 50% at 10% 0%, rgba(6,182,212,0.07) 0%, transparent 60%), radial-gradient(ellipse 50% 40% at 90% 100%, rgba(249,115,22,0.05) 0%, transparent 50%)",
-      }}
-    >
+    <div className="bg-app-layout flex h-[100dvh] dark:bg-black bg-slate-100">
       {/* ── Desktop Sidebar (md+) ── */}
       <aside
         className="hidden md:flex w-[220px] flex-shrink-0 flex-col dark:border-white/[0.06] border-slate-200 border-r"
@@ -89,7 +84,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <div className="flex items-center gap-2.5 px-5 h-16 dark:border-white/[0.06] border-slate-200 border-b">
           <LogoMark size={28} />
           <span className="dark:text-white text-slate-900 font-bold text-base tracking-tight">
-            Inbox<span className="text-brand">AI</span>
+            Inbox<span className="text-brand">Cube</span>
           </span>
         </div>
 
@@ -165,7 +160,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-2">
             <LogoMark size={26} />
             <span className="dark:text-white text-slate-900 font-bold text-sm tracking-tight">
-              Inbox<span className="text-brand">AI</span>
+              Inbox<span className="text-brand">Cube</span>
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -199,7 +194,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </p>
                 <Link
                   href="/#pricing"
-                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover:shadow-[0_0_24px_rgba(6,182,212,0.4)] transition-all duration-200"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-md transition-all duration-200"
                 >
                   View pricing plans
                 </Link>

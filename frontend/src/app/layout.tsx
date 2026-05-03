@@ -11,9 +11,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "AI Inbox Assistant — Your Email, Finally Under Control",
+  title: "InboxCube — Your Email, Finally Under Control",
   description:
-    "AI-powered email management that reads, prioritises, and acts on your inbox. Save 2+ hours every single day.",
+    "InboxCube: AI-powered email management that reads, prioritises, and acts on your inbox. Save 2+ hours every single day.",
 };
 
 export default function RootLayout({

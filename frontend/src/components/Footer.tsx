@@ -35,11 +35,11 @@ export default function Footer() {
 
           <div className="col-span-2 md:col-span-1">
             <Link href="/" className="flex items-center gap-2.5 mb-4 group">
-              <div className="transition-all duration-300 group-hover:drop-shadow-[0_0_8px_rgba(6,182,212,0.6)]">
+              <div className="logo-glow-sm transition-all duration-300">
                 <LogoMark size={30} />
               </div>
               <span className="text-white font-bold text-base tracking-tight">
-                Inbox<span className="text-brand">AI</span>
+                Inbox<span className="text-brand">Cube</span>
               </span>
             </Link>
             <p className="text-white/30 text-sm leading-relaxed max-w-[175px]">
@@ -78,7 +78,7 @@ export default function Footer() {
                   <li key={label}>
                     <a
                       href={href}
-                      className="text-white/25 hover:text-white/60 text-sm transition-colors duration-200"
+                      className="text-t5 hover:text-white/60 text-sm transition-colors duration-200"
                      
                     >
                       {label}
@@ -91,12 +91,12 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-white/[0.05] pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/20 text-sm">
-            © 2026 AI Inbox Assistant, Inc. All rights reserved.
+          <p className="text-t5 text-sm">
+            © {new Date().getFullYear()} InboxCube - Product of Enigma-Cube. All rights reserved.
           </p>
           <div className="flex items-center gap-1.5">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span className="text-white/25 text-xs">
+            <span className="text-t5 text-xs">
               All systems operational
             </span>
           </div>
