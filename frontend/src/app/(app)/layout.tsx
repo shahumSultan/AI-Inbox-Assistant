@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import LogoMark from "@/components/LogoMark";
 import ThemeToggle from "@/components/ThemeToggle";
-import { clearAuth, getAuthUser, trialDaysRemaining, type AuthUser } from "@/lib/auth";
+import { clearAuth, getAuthUser, getToken, trialDaysRemaining, type AuthUser } from "@/lib/auth";
 
 const NAV = [
   {
@@ -46,7 +46,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router   = useRouter();
   const [user, setUser] = useState<AuthUser | null>(null);
 
-  useEffect(() => { setUser(getAuthUser()); }, []);
+  useEffect(() => {
+    setUser(getAuthUser());
+    const token = getToken();
+    if (token && !sessionStorage.getItem("sync_triggered")) {
+      sessionStorage.setItem("sync_triggered", "1");
+      fetch(`${process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000"}/api/oauth/sync`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+      }).catch(() => {});
+    }
+  }, []);
 
   function handleLogout() {
     clearAuth();

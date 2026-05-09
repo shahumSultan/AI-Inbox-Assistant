@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, useEffect, FormEvent } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 
@@ -40,11 +41,18 @@ const ACTION_ICON: Record<string, string> = {
 
 export default function NewThreadPage() {
   const router = useRouter();
-  const [text,    setText]    = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error,   setError]   = useState<string | null>(null);
-  const [result,  setResult]  = useState<ThreadOut | null>(null);
-  const [copied,  setCopied]  = useState<string | null>(null);
+  const [text,           setText]           = useState("");
+  const [loading,        setLoading]        = useState(false);
+  const [error,          setError]          = useState<string | null>(null);
+  const [result,         setResult]         = useState<ThreadOut | null>(null);
+  const [copied,         setCopied]         = useState<string | null>(null);
+  const [hasConnections, setHasConnections] = useState(false);
+
+  useEffect(() => {
+    api.get<{ id: string }[]>("/api/oauth/connections")
+      .then((c) => setHasConnections(c.length > 0))
+      .catch(() => {});
+  }, []);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -75,6 +83,18 @@ export default function NewThreadPage() {
       <div className="mb-8">
         <h1 className="dark:text-white text-slate-900 text-2xl sm:text-3xl font-bold tracking-tight mb-1">Analyse Thread</h1>
         <p className="dark:text-white/40 text-slate-500 text-sm">Paste an email thread and get instant AI-powered next steps</p>
+        {hasConnections && (
+          <div className="mt-3 flex items-center gap-2 px-3 py-2 rounded-lg border dark:border-white/[0.06] border-slate-200 dark:bg-white/[0.02] bg-slate-50 w-fit">
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none" className="dark:text-white/30 text-slate-400 flex-shrink-0">
+              <circle cx="6.5" cy="6.5" r="5" stroke="currentColor" strokeWidth="1.2"/>
+              <path d="M6.5 4.5v3M6.5 8.5v.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
+            </svg>
+            <span className="dark:text-white/30 text-slate-400 text-xs">
+              Your connected accounts sync automatically on login.{" "}
+              <Link href="/settings" className="text-brand hover:underline">Manage connections →</Link>
+            </span>
+          </div>
+        )}
       </div>
 
       {!result && (

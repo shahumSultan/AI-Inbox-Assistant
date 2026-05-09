@@ -12,6 +12,7 @@ from app.routers.threads import router as threads_router
 from app.routers.actions import router as actions_router
 from app.routers.replies import router as replies_router
 from app.routers.dashboard import router as dashboard_router
+from app.routers.oauth import router as oauth_router
 
 load_dotenv()
 
@@ -32,6 +33,25 @@ def _run_migrations():
         ))
         conn.execute(text(
             "ALTER TABLE users ADD COLUMN IF NOT EXISTS openai_api_key TEXT"
+        ))
+        conn.execute(text(
+            "ALTER TABLE users ADD COLUMN IF NOT EXISTS groq_api_key TEXT"
+        ))
+        conn.execute(text("""
+            CREATE TABLE IF NOT EXISTS oauth_connections (
+                id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+                user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+                provider VARCHAR NOT NULL,
+                email_address VARCHAR NOT NULL,
+                access_token TEXT NOT NULL,
+                refresh_token TEXT NOT NULL,
+                token_expiry TIMESTAMPTZ,
+                last_synced_at TIMESTAMPTZ,
+                created_at TIMESTAMPTZ DEFAULT NOW()
+            )
+        """))
+        conn.execute(text(
+            "ALTER TABLE conversation_threads ADD COLUMN IF NOT EXISTS external_id VARCHAR"
         ))
         conn.commit()
 
@@ -59,6 +79,7 @@ app.include_router(threads_router)
 app.include_router(actions_router)
 app.include_router(replies_router)
 app.include_router(dashboard_router)
+app.include_router(oauth_router)
 
 
 @app.get("/")

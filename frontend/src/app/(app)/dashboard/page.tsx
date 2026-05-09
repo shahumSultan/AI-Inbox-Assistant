@@ -11,6 +11,7 @@ interface DashboardThread {
   primary_intent: string;
   priority_score: number;
   status: string;
+  source: string;
   open_action_count: number;
   top_action_type: string | null;
   earliest_due: string | null;
@@ -156,6 +157,18 @@ function ThreadCard({ thread, groupColor }: { thread: DashboardThread; groupColo
               }}
             >
               {dueLabel}
+            </span>
+          )}
+
+          {(thread.source === "gmail" || thread.source === "outlook") && (
+            <span
+              className="text-[11px] font-medium px-2 py-0.5 rounded-full"
+              style={{
+                background: thread.source === "gmail" ? "rgba(234,67,53,0.1)" : "rgba(0,114,239,0.1)",
+                color: thread.source === "gmail" ? "#ea4335" : "#0072ef",
+              }}
+            >
+              {thread.source === "gmail" ? "Gmail" : "Outlook"}
             </span>
           )}
 

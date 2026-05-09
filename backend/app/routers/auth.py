@@ -20,11 +20,11 @@ def _is_admin_email(email: str) -> bool:
     return email.lower() in [e.strip().lower() for e in admin.split(",") if e.strip()]
 
 
-def _key_hint(user: User) -> str | None:
-    if not user.openai_api_key:
+def _key_hint(encrypted: str | None) -> str | None:
+    if not encrypted:
         return None
     try:
-        plain = decrypt_field(user.openai_api_key)
+        plain = decrypt_field(encrypted)
         return f"...{plain[-4:]}" if len(plain) >= 4 else "...****"
     except Exception:
         return None
@@ -81,7 +81,8 @@ def me(current_user: User = Depends(get_current_user)):
         default_tone=current_user.default_tone,
         signature=current_user.signature,
         followup_default_days=current_user.followup_default_days,
-        openai_api_key_hint=_key_hint(current_user),
+        openai_api_key_hint=_key_hint(current_user.openai_api_key),
+        groq_api_key_hint=_key_hint(current_user.groq_api_key),
     )
 
 
@@ -103,10 +104,9 @@ def update_me(body: UpdateMeRequest, db: Session = Depends(get_db), current_user
     if body.followup_default_days is not None:
         current_user.followup_default_days = max(1, min(30, body.followup_default_days))
     if body.openai_api_key is not None:
-        if body.openai_api_key == "":
-            current_user.openai_api_key = None
-        else:
-            current_user.openai_api_key = encrypt_field(body.openai_api_key)
+        current_user.openai_api_key = None if body.openai_api_key == "" else encrypt_field(body.openai_api_key)
+    if body.groq_api_key is not None:
+        current_user.groq_api_key = None if body.groq_api_key == "" else encrypt_field(body.groq_api_key)
 
     db.commit()
     db.refresh(current_user)
@@ -119,7 +119,8 @@ def update_me(body: UpdateMeRequest, db: Session = Depends(get_db), current_user
         default_tone=current_user.default_tone,
         signature=current_user.signature,
         followup_default_days=current_user.followup_default_days,
-        openai_api_key_hint=_key_hint(current_user),
+        openai_api_key_hint=_key_hint(current_user.openai_api_key),
+        groq_api_key_hint=_key_hint(current_user.groq_api_key),
     )
 
 

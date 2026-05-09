@@ -18,6 +18,7 @@ class DashboardThread(BaseModel):
     primary_intent: str
     priority_score: int
     status: str
+    source: str
     open_action_count: int
     top_action_type: Optional[str]
     earliest_due: Optional[date]
@@ -81,6 +82,7 @@ def get_dashboard(
             primary_intent=thread.primary_intent or "",
             priority_score=thread.priority_score or 3,
             status=thread.status,
+            source=thread.source,
             open_action_count=len(open_actions),
             top_action_type=open_actions[0].type if open_actions else None,
             earliest_due=min(due_dates) if due_dates else None,

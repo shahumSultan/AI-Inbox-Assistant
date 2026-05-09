@@ -21,12 +21,14 @@ class User(Base):
     signature        = Column(Text, nullable=True)
     followup_default_days = Column(Integer, nullable=False, default=3)
     openai_api_key   = Column(Text, nullable=True)  # encrypted
+    groq_api_key     = Column(Text, nullable=True)  # encrypted
     created_at       = Column(DateTime(timezone=True), server_default=func.now())
     updated_at       = Column(DateTime(timezone=True), server_default=func.now(), onupdate=func.now())
 
-    threads = relationship("ConversationThread", back_populates="user", cascade="all, delete-orphan")
-    actions = relationship("Action", back_populates="user", cascade="all, delete-orphan")
-    replies = relationship("GeneratedReply", back_populates="user", cascade="all, delete-orphan")
+    threads           = relationship("ConversationThread", back_populates="user", cascade="all, delete-orphan")
+    actions           = relationship("Action", back_populates="user", cascade="all, delete-orphan")
+    replies           = relationship("GeneratedReply", back_populates="user", cascade="all, delete-orphan")
+    oauth_connections = relationship("OAuthConnection", back_populates="user", cascade="all, delete-orphan")
 
 
 class ConversationThread(Base):
@@ -35,7 +37,8 @@ class ConversationThread(Base):
     id               = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     user_id          = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     title            = Column(String, nullable=False)
-    source           = Column(String, nullable=False, default="paste")  # paste|upload|forwarded
+    source           = Column(String, nullable=False, default="paste")  # paste|upload|forwarded|gmail|outlook
+    external_id      = Column(String, nullable=True)                   # e.g. "gmail:abc123" | "outlook:xyz"
     raw_text         = Column(Text, nullable=False)
     summary          = Column(Text, nullable=True)
     primary_intent   = Column(String, nullable=True)
@@ -100,3 +103,19 @@ class GeneratedReply(Base):
 
     thread = relationship("ConversationThread", back_populates="replies")
     user   = relationship("User", back_populates="replies")
+
+
+class OAuthConnection(Base):
+    __tablename__ = "oauth_connections"
+
+    id             = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    user_id        = Column(UUID(as_uuid=True), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    provider       = Column(String, nullable=False)      # "google" | "microsoft"
+    email_address  = Column(String, nullable=False)
+    access_token   = Column(Text, nullable=False)        # Fernet-encrypted
+    refresh_token  = Column(Text, nullable=False)        # Fernet-encrypted
+    token_expiry   = Column(DateTime(timezone=True), nullable=True)
+    last_synced_at = Column(DateTime(timezone=True), nullable=True)
+    created_at     = Column(DateTime(timezone=True), server_default=func.now())
+
+    user = relationship("User", back_populates="oauth_connections")

@@ -5,6 +5,14 @@ import { useRouter } from "next/navigation";
 import { api } from "@/lib/api";
 import { clearAuth, getAuthUser, trialDaysRemaining, type AuthUser } from "@/lib/auth";
 
+interface OAuthConnection {
+  id: string;
+  provider: "google" | "microsoft";
+  email_address: string;
+  last_synced_at: string | null;
+  created_at: string;
+}
+
 interface MeResponse {
   user_id: string;
   email: string;
@@ -15,6 +23,7 @@ interface MeResponse {
   signature: string | null;
   followup_default_days: number;
   openai_api_key_hint: string | null;
+  groq_api_key_hint: string | null;
 }
 
 const TONES = ["professional", "friendly", "concise", "formal"] as const;
@@ -54,11 +63,15 @@ export default function SettingsPage() {
   const [prefSaving,     setPrefSaving]     = useState(false);
   const [prefSaved,      setPrefSaved]      = useState(false);
 
-  // AI key form
-  const [aiKey,      setAiKey]      = useState("");
-  const [aiSaving,   setAiSaving]   = useState(false);
-  const [aiSaved,    setAiSaved]    = useState(false);
-  const [aiError,    setAiError]    = useState<string | null>(null);
+  // AI key forms
+  const [aiKey,       setAiKey]       = useState("");
+  const [aiSaving,    setAiSaving]    = useState(false);
+  const [aiSaved,     setAiSaved]     = useState(false);
+  const [aiError,     setAiError]     = useState<string | null>(null);
+  const [groqKey,     setGroqKey]     = useState("");
+  const [groqSaving,  setGroqSaving]  = useState(false);
+  const [groqSaved,   setGroqSaved]   = useState(false);
+  const [groqError,   setGroqError]   = useState<string | null>(null);
 
   // Password form
   const [currentPw,  setCurrentPw]  = useState("");
@@ -72,6 +85,13 @@ export default function SettingsPage() {
   const [deleting,      setDeleting]      = useState(false);
   const [deleteError,   setDeleteError]   = useState<string | null>(null);
 
+  // Connected accounts
+  const [connections,    setConnections]    = useState<OAuthConnection[]>([]);
+  const [connectingProv, setConnectingProv] = useState<string | null>(null);
+  const [oauthBanner,    setOauthBanner]    = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [syncing,        setSyncing]        = useState(false);
+  const [syncResult,     setSyncResult]     = useState<{ synced: number; skipped: number; errors: number } | null>(null);
+
   useEffect(() => {
     setLocalUser(getAuthUser());
     api.get<MeResponse>("/api/auth/me").then((data) => {
@@ -80,6 +100,26 @@ export default function SettingsPage() {
       setSignature(data.signature ?? "");
       setFollowupDays(data.followup_default_days ?? 3);
     });
+    api.get<OAuthConnection[]>("/api/oauth/connections").then(setConnections).catch(() => {});
+
+    // Handle OAuth callback result from URL params
+    const params = new URLSearchParams(window.location.search);
+    const success = params.get("oauth_success");
+    const error = params.get("oauth_error");
+    if (success) {
+      const providerLabel = success === "google" ? "Gmail" : "Outlook";
+      setOauthBanner({ type: "success", message: `${providerLabel} connected successfully. Click "Sync now" to import your emails.` });
+      window.history.replaceState({}, "", "/settings");
+      // Clear session flag so layout sync fires again on next navigation
+      sessionStorage.removeItem("sync_triggered");
+      api.get<OAuthConnection[]>("/api/oauth/connections").then(setConnections).catch(() => {});
+    } else if (error) {
+      const msg = error === "no_refresh_token"
+        ? "Could not get a refresh token — please try again."
+        : "Failed to connect account. Please try again.";
+      setOauthBanner({ type: "error", message: msg });
+      window.history.replaceState({}, "", "/settings");
+    }
   }, []);
 
   async function savePreferences(e: FormEvent) {
@@ -108,6 +148,23 @@ export default function SettingsPage() {
       setAiError((err as Error).message);
     } finally {
       setAiSaving(false);
+    }
+  }
+
+  async function saveGroqKey(e: FormEvent) {
+    e.preventDefault();
+    setGroqError(null);
+    setGroqSaving(true);
+    try {
+      await api.patch("/api/auth/me", { groq_api_key: groqKey });
+      setGroqSaved(true);
+      setGroqKey("");
+      setMe((prev) => prev ? { ...prev, groq_api_key_hint: groqKey === "" ? null : `...${groqKey.slice(-4)}` } : prev);
+      setTimeout(() => setGroqSaved(false), 2500);
+    } catch (err) {
+      setGroqError((err as Error).message);
+    } finally {
+      setGroqSaving(false);
     }
   }
 
@@ -142,6 +199,37 @@ export default function SettingsPage() {
     }
   }
 
+  async function syncNow() {
+    setSyncing(true);
+    setSyncResult(null);
+    try {
+      const result = await api.post<{ synced: number; skipped: number; errors: number }>("/api/oauth/sync", {});
+      setSyncResult(result);
+      // Refresh last_synced_at on connection cards
+      api.get<OAuthConnection[]>("/api/oauth/connections").then(setConnections).catch(() => {});
+    } catch (err) {
+      setOauthBanner({ type: "error", message: (err as Error).message });
+    } finally {
+      setSyncing(false);
+    }
+  }
+
+  async function connectAccount(provider: "google" | "microsoft") {
+    setConnectingProv(provider);
+    try {
+      const { url } = await api.get<{ url: string }>(`/api/oauth/${provider}/connect`);
+      window.location.href = url;
+    } catch {
+      setOauthBanner({ type: "error", message: "Could not initiate connection. Please try again." });
+      setConnectingProv(null);
+    }
+  }
+
+  async function disconnectAccount(id: string) {
+    await api.delete(`/api/oauth/connections/${id}`);
+    setConnections((prev) => prev.filter((c) => c.id !== id));
+  }
+
   const daysLeft = localUser ? trialDaysRemaining(localUser) : null;
 
   const planBadge = me?.is_admin
@@ -159,6 +247,23 @@ export default function SettingsPage() {
         <h1 className="dark:text-white text-slate-900 text-2xl sm:text-3xl font-bold tracking-tight mb-1">Settings</h1>
         <p className="dark:text-white/40 text-slate-500 text-sm">Manage your account and preferences</p>
       </div>
+
+      {oauthBanner && (
+        <div
+          className={`mb-4 flex items-center justify-between gap-3 px-4 py-3 rounded-xl border text-sm ${
+            oauthBanner.type === "success"
+              ? "bg-emerald-500/[0.08] border-emerald-500/20 text-emerald-400"
+              : "bg-red-500/[0.08] border-red-500/20 text-red-400"
+          }`}
+        >
+          <span>{oauthBanner.message}</span>
+          <button onClick={() => setOauthBanner(null)} className="opacity-50 hover:opacity-100 transition-opacity">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+            </svg>
+          </button>
+        </div>
+      )}
 
       <div className="flex flex-col gap-6">
 
@@ -262,21 +367,155 @@ export default function SettingsPage() {
           </form>
         </Section>
 
+        {/* ── Connected Accounts ── */}
+        <Section title="Connected Accounts">
+          <p className="dark:text-white/30 text-slate-400 text-xs -mt-1">
+            Connected accounts sync automatically when you log in. New threads appear on the dashboard with a source badge.
+          </p>
+          {connections.length > 0 && (
+            <div className="flex items-center gap-3 flex-wrap">
+              <button
+                onClick={syncNow}
+                disabled={syncing}
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white bg-gradient-brand hover-glow-sm hover:scale-105 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                {syncing ? (
+                  <><svg className="animate-spin" width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" strokeWidth="1.3" opacity=".3"/><path d="M6.5 2a4.5 4.5 0 014.5 4.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg> Syncing…</>
+                ) : (
+                  <><svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M11 6.5A4.5 4.5 0 112.5 4M2.5 1.5V4H5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg> Sync now</>
+                )}
+              </button>
+              {syncResult && (
+                <span className="text-xs dark:text-white/40 text-slate-500">
+                  {syncResult.synced > 0
+                    ? <span className="text-emerald-400">{syncResult.synced} new thread{syncResult.synced !== 1 ? "s" : ""} added</span>
+                    : "No new threads"}
+                  {syncResult.skipped > 0 && <span className="ml-1.5 dark:text-white/25 text-slate-400">· {syncResult.skipped} already imported</span>}
+                  {syncResult.errors > 0 && <span className="ml-1.5 text-red-400">· {syncResult.errors} failed</span>}
+                </span>
+              )}
+            </div>
+          )}
+
+          {(
+            [
+              { provider: "google" as const, label: "Gmail", color: "#ea4335" },
+              { provider: "microsoft" as const, label: "Outlook / Hotmail", color: "#0072ef" },
+            ] as const
+          ).map(({ provider, label, color }) => {
+            const connected = connections.filter((c) => c.provider === provider);
+            return (
+              <div key={provider} className="flex flex-col gap-2">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-xs font-semibold dark:text-white/50 text-slate-500">{label}</span>
+                </div>
+                {connected.map((conn) => (
+                  <div
+                    key={conn.id}
+                    className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-xl dark:border-white/[0.07] border-slate-200 border dark:bg-white/[0.03] bg-slate-50"
+                  >
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: color }} />
+                      <div className="min-w-0">
+                        <p className="dark:text-white/80 text-slate-700 text-sm truncate">{conn.email_address}</p>
+                        {conn.last_synced_at && (
+                          <p className="dark:text-white/25 text-slate-400 text-[11px]">
+                            Last synced {new Date(conn.last_synced_at).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => disconnectAccount(conn.id)}
+                      className="flex-shrink-0 text-xs text-red-400 border border-red-500/20 bg-red-500/[0.06] hover:bg-red-500/[0.12] px-2.5 py-1 rounded-lg transition-all duration-150"
+                    >
+                      Disconnect
+                    </button>
+                  </div>
+                ))}
+                <button
+                  onClick={() => connectAccount(provider)}
+                  disabled={connectingProv !== null}
+                  className="w-fit inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-medium border dark:border-white/[0.08] border-slate-200 dark:bg-white/[0.03] bg-slate-50 dark:text-white/60 text-slate-600 hover:bg-brand/10 hover:border-brand/25 hover:text-brand transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                    <path d="M6.5 2v9M2 6.5h9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+                  </svg>
+                  {connectingProv === provider ? "Redirecting…" : `Connect ${label.split(" /")[0]}`}
+                </button>
+              </div>
+            );
+          })}
+        </Section>
+
         {/* ── AI ── */}
         <Section title="AI Provider">
-          <form onSubmit={saveAiKey} className="flex flex-col gap-5">
+          <p className="dark:text-white/30 text-slate-400 text-xs -mt-1">
+            Add a Groq key (free, fast) or an OpenAI key. Groq is used first if both are set.
+          </p>
+
+          {/* Groq */}
+          <form onSubmit={saveGroqKey} className="flex flex-col gap-4">
+            <Field
+              label="Groq API key"
+              hint={me?.groq_api_key_hint
+                ? `Current key: ${me.groq_api_key_hint} — paste a new key to replace`
+                : "Free tier available at console.groq.com — recommended"}
+            >
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={groqKey}
+                  onChange={(e) => setGroqKey(e.target.value)}
+                  placeholder={me?.groq_api_key_hint ?? "gsk_..."}
+                  className="flex-1 px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors dark:placeholder-white/20 placeholder-slate-300"
+                />
+                {me?.groq_api_key_hint && (
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      await api.patch("/api/auth/me", { groq_api_key: "" });
+                      setMe((prev) => prev ? { ...prev, groq_api_key_hint: null } : prev);
+                    }}
+                    className="px-3 py-2.5 rounded-xl text-xs font-medium text-red-400 border border-red-500/20 bg-red-500/[0.06] hover:bg-red-500/[0.12] transition-all duration-150"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+              {groqError && (
+                <p className="text-red-400 text-xs mt-2 px-3 py-2 rounded-lg bg-red-500/[0.08] border border-red-500/20">{groqError}</p>
+              )}
+            </Field>
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={groqSaving || !groqKey}
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 ${
+                  groqSaved ? "bg-emerald/20 border border-emerald/30 text-emerald" : "bg-gradient-brand hover-glow-sm hover:scale-105"
+                } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
+              >
+                {groqSaved ? (<><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> Saved</>) : groqSaving ? "Saving…" : "Save Groq key"}
+              </button>
+            </div>
+          </form>
+
+          <div className="border-t dark:border-white/[0.06] border-slate-200" />
+
+          {/* OpenAI */}
+          <form onSubmit={saveAiKey} className="flex flex-col gap-4">
             <Field
               label="OpenAI API key"
               hint={me?.openai_api_key_hint
-                ? `Current key: ${me.openai_api_key_hint} — paste a new key to replace, or clear to remove`
-                : "Required to analyse threads. Get yours at platform.openai.com"}
+                ? `Current key: ${me.openai_api_key_hint} — paste a new key to replace`
+                : "Optional if Groq key is set. Get yours at platform.openai.com"}
             >
               <div className="flex gap-2">
                 <input
                   type="password"
                   value={aiKey}
                   onChange={(e) => setAiKey(e.target.value)}
-                  placeholder={me?.openai_api_key_hint ? me.openai_api_key_hint : "sk-..."}
+                  placeholder={me?.openai_api_key_hint ?? "sk-..."}
                   className="flex-1 px-3 py-2.5 rounded-xl dark:border-white/[0.08] border-slate-200 border dark:bg-white/[0.04] bg-slate-100 dark:text-white text-slate-900 text-sm outline-none focus:border-brand/40 transition-colors dark:placeholder-white/20 placeholder-slate-300"
                 />
                 {me?.openai_api_key_hint && (
@@ -296,20 +535,15 @@ export default function SettingsPage() {
                 <p className="text-red-400 text-xs mt-2 px-3 py-2 rounded-lg bg-red-500/[0.08] border border-red-500/20">{aiError}</p>
               )}
             </Field>
-
             <div className="flex justify-end">
               <button
                 type="submit"
                 disabled={aiSaving || !aiKey}
                 className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-200 ${
-                  aiSaved
-                    ? "bg-emerald/20 border border-emerald/30 text-emerald"
-                    : "bg-gradient-brand hover-glow-sm hover:scale-105"
+                  aiSaved ? "bg-emerald/20 border border-emerald/30 text-emerald" : "bg-gradient-brand hover-glow-sm hover:scale-105"
                 } disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100`}
               >
-                {aiSaved ? (
-                  <><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> Saved</>
-                ) : aiSaving ? "Saving…" : "Save key"}
+                {aiSaved ? (<><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 7l3.5 3.5 5.5-6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg> Saved</>) : aiSaving ? "Saving…" : "Save OpenAI key"}
               </button>
             </div>
           </form>
